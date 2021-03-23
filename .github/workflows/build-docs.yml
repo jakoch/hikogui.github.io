@@ -6,13 +6,13 @@
 # This file is part of ttauri-project.
 #
 
-name: Documentation Pipeline
+name: Docs
 
 on:
   push:
     branches:
       - main
-      - doc_fixes
+      - new_theme
     # trigger this workflow, on receiving the repo_dispatch event type "build_documentation"
     repository_dispatch:
       types: [build_documentation]
@@ -46,10 +46,15 @@ jobs:
           dot -V
 
       # Get the source repository, for which we want to generate the documentation for.
-      - name: 🔽 Get Source Repository
+      - name: 🔽 Get Source Repository ➞ ttauri
         run: |
           rm -rf ttauri
           git clone https://github.com/ttauri-project/ttauri.git ttauri
+
+      # Get the source repository, for the doxygen theme.
+      - name: 🔽 Get Source Repository ➞ doxygen-awesome-theme
+        run: |
+          git clone https://github.com/jothepro/doxygen-awesome-css.git theme
 
       # ttauri_versions.txt: Get the list of version numbers from git tags, sorted in reverse and add "main" on top.
       # ttauri_latest_version.txt: Get latest tag version without "v" prefix.
