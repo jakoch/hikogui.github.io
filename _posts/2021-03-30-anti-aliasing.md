@@ -28,9 +28,7 @@ sRGB screen-luminance-level.
 
 The luminance value is calculated from the linear-sRGB values as follows:
 
-```
-Y = 0.2126 * R + 0.7152 * G + 0.0722 * B
-```
+\(Y = 0.2126 * R + 0.7152 * G + 0.0722 * B\)
 
 My intuition of luminance calculations in high-gamut extended-sRGB color space
 is that the luminance is always positive. Since if a color outside the standard-sRGB
