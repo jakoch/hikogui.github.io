@@ -1,4 +1,6 @@
 theme: jekyll-theme-midnight
 markdown: kramdown
+kramdown:
+  math_engine: MathJax
 include:
   - "_*.html"
