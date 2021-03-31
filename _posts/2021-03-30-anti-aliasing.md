@@ -48,10 +48,8 @@ be mapped non-linear to 0 cd/m2 to 80 cd/m2.  which is the standard range of
 
 The lightness and luminance value can be translated as follows:
 
-```
-L = sqrt(Y)
-Y = L * L
-```
+$$ L = sqrt(Y) $$
+$$ Y = L * L $$
 
 The formula above is an approximation made in 1920, the current well accepted
 approximation is closer to cube-root curve with a linear section for dark values used
@@ -95,9 +93,9 @@ lightness |0.0 |0.5 |1.0 |0.87|0.0 |   |1.0 |0.87|0.0 |0.5 |1.0 |
           +----+----+----+----+----+   +----+----+----+----+----+
 ```
 
-The perceived line width of "white on black-background" is: `width = 0.0 + 0.5 + 1.0 + 0.87 + 0.0 = 2.37`
+The perceived line width of "white on black-background" is: $$ width = 0.0 + 0.5 + 1.0 + 0.87 + 0.0 = 2.37 $$
 
-The perceived line width of "black on white-background" is: `width = 5 - (1.0 + 0.87 + 0.0 + 0.5 + 1.0) = 1.63`
+The perceived line width of "black on white-background" is: $$ width = 5 - (1.0 + 0.87 + 0.0 + 0.5 + 1.0) = 1.63 $$
 
 As you can see the perceived width of the line is significant different
 especially when anti-aliasing objects which are thin, such as the lines
@@ -134,30 +132,30 @@ First we need to calculate the foreground and background lightness, based on the
 final composite of the foreground and background color using the two alpha values
 0.0 and 1.0. This definition will allow for semi-transparent foreground colors.
 
-```
-Yfront = 0.2126 * Rfront + 0.7152 * Gfront + 0.0722 * Bfront
-Yback  = 0.2126 * Rback + 0.7152 * Gback + 0.0722 * Bback
-Lfront = sqrt(Yfront)
-Lback  = sqrt(Yback)
-```
+$$ Yfront = 0.2126 * R_front + 0.7152 * G_front + 0.0722 * B_front $$
+$$ Yback  = 0.2126 * R_back + 0.7152 * G_back + 0.0722 * B_back $$
+$$ Lfront = \sqrt{Y_front} $$
+$$ Lback  = \sqrt{Y_back} $$
 
 By mixing the foreground and background lightness using the coverage value, we
 now have the target lightness for that coverage value.
 
-```
-Ltarget = mix(Lback, Lfront, coverage)
-```
+$$ L_target = mix(L_back, L_front, coverage) $$
 
 We can convert this target lightness to a target luminance, which can then be used to find
 the alpha value needed to reach that target from the foreground and background luminance.
 If the luminance of the background and foreground are the same, then only the color is
 different and we can linearly map the coverage to alpha.
 
-```
-Ytarget = Ltarget * Ltarget
-alpha   = (Ytarget - Yback) / (Yfront - Yback)       if Yfront != Yback
-alpha   = coverage                                   otherwise
-```
+$$ Y_target = Ltarget * Ltarget $$
+
+$$
+A =
+\begin{cases}
+    (Y_target - Y_back) / (Y_front - Y_back), & \text{if } Y_front != Y_back
+    coverage,                                 & \text{otherwise}
+\end{cases}
+$$
 
 ### Example
 
@@ -185,10 +183,12 @@ lightness |0.0 |0.25|1.0 |0.75|0.0 |   |1.0 |0.75|0.0 |0.25|1.0 |
 ```
 
 The perceived line width of "white on black-background" is:
-`width = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2`
+
+$$ width = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
 
 The perceived line width of "black on white-background" is:
-`width = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2`
+
+$$ width = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
 
 Sub-pixel anti-aliasing
 -----------------------
@@ -202,3 +202,4 @@ compositing with the two alpha values of 0.0 and 1.0.
 
 After that we have an alpha value for each sub-pixel, then we do
 linear compositing on each sub-pixel separate.
+
