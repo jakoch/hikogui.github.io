@@ -48,7 +48,8 @@ be mapped non-linear to 0 cd/m2 to 80 cd/m2.  which is the standard range of
 
 The lightness and luminance value can be translated as follows:
 
-$$ L = sqrt(Y) $$
+$$ L = \sqrt{Y} $$
+
 $$ Y = L * L $$
 
 The formula above is an approximation made in 1920, the current well accepted
@@ -93,9 +94,13 @@ lightness |0.0 |0.5 |1.0 |0.87|0.0 |   |1.0 |0.87|0.0 |0.5 |1.0 |
           +----+----+----+----+----+   +----+----+----+----+----+
 ```
 
-The perceived line width of "white on black-background" is: $$ width = 0.0 + 0.5 + 1.0 + 0.87 + 0.0 = 2.37 $$
+The perceived line width of "white on black-background" is:
 
-The perceived line width of "black on white-background" is: $$ width = 5 - (1.0 + 0.87 + 0.0 + 0.5 + 1.0) = 1.63 $$
+$$ \text{width} = 0.0 + 0.5 + 1.0 + 0.87 + 0.0 = 2.37 $$
+
+The perceived line width of "black on white-background" is:
+
+$$ \text{width} = 5 - (1.0 + 0.87 + 0.0 + 0.5 + 1.0) = 1.63 $$
 
 As you can see the perceived width of the line is significant different
 especially when anti-aliasing objects which are thin, such as the lines
@@ -132,29 +137,29 @@ First we need to calculate the foreground and background lightness, based on the
 final composite of the foreground and background color using the two alpha values
 0.0 and 1.0. This definition will allow for semi-transparent foreground colors.
 
-$$ Yfront = 0.2126 * R_front + 0.7152 * G_front + 0.0722 * B_front $$
-$$ Yback  = 0.2126 * R_back + 0.7152 * G_back + 0.0722 * B_back $$
-$$ Lfront = \sqrt{Y_front} $$
-$$ Lback  = \sqrt{Y_back} $$
+$$ Y\_\\text{front} = 0.2126 * R\_\\text{front} + 0.7152 * G\_\\text{front} + 0.0722 * B\_\\text{front} $$
+$$ Y\_\\text{back}  = 0.2126 * R\_\\text{back} + 0.7152 * G\_\\text{back} + 0.0722 * B\_\\text{back} $$
+$$ L\_\\text{front} = \sqrt{Y\_\\text{front}} $$
+$$ L\_\\text{back}  = \sqrt{Y\_\\text{back}} $$
 
 By mixing the foreground and background lightness using the coverage value, we
 now have the target lightness for that coverage value.
 
-$$ L_target = mix(L_back, L_front, coverage) $$
+$$ L\_\\text{target} = mix(L\_\\text{back}, L\_\\trext{front}, \\text{coverage}) $$
 
 We can convert this target lightness to a target luminance, which can then be used to find
 the alpha value needed to reach that target from the foreground and background luminance.
 If the luminance of the background and foreground are the same, then only the color is
 different and we can linearly map the coverage to alpha.
 
-$$ Y_target = Ltarget * Ltarget $$
+$$ Y\_\\text{target} = L\_\\text{target} * L\_\\text{target} $$
 
 $$
 A =
-\begin{cases}
-    (Y_target - Y_back) / (Y_front - Y_back), & \text{if } Y_front != Y_back
-    coverage,                                 & \text{otherwise}
-\end{cases}
+\\begin{cases}
+    (Y\_\\text{target} - Y\_\\text{back}) / (Y\_\\text{front} - Y\_\\text{back}), & \\text{if } Y\_\\text{front} != Y\_\\text{back}
+    \\text{coverage}, & \text{otherwise}
+\\end{cases}
 $$
 
 ### Example
@@ -184,11 +189,11 @@ lightness |0.0 |0.25|1.0 |0.75|0.0 |   |1.0 |0.75|0.0 |0.25|1.0 |
 
 The perceived line width of "white on black-background" is:
 
-$$ width = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
+$$ \\text{width} = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
 
 The perceived line width of "black on white-background" is:
 
-$$ width = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
+$$ \\text{width} = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
 
 Sub-pixel anti-aliasing
 -----------------------
