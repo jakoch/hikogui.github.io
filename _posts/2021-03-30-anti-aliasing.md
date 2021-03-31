@@ -137,29 +137,29 @@ First we need to calculate the foreground and background lightness, based on the
 final composite of the foreground and background color using the two alpha values
 0.0 and 1.0. This definition will allow for semi-transparent foreground colors.
 
-$$ Y\_\\text{front} = 0.2126 * R\_\\text{front} + 0.7152 * G\_\\text{front} + 0.0722 * B\_\\text{front} $$
-$$ Y\_\\text{back}  = 0.2126 * R\_\\text{back} + 0.7152 * G\_\\text{back} + 0.0722 * B\_\\text{back} $$
-$$ L\_\\text{front} = \sqrt{Y\_\\text{front} } $$
-$$ L\_\\text{back}  = \sqrt{Y\_\\text{back} } $$
+$$ Y_\text{front} = 0.2126 * R_\text{front} + 0.7152 * G_\text{front} + 0.0722 * B_\text{front} $$
+$$ Y_\text{back}  = 0.2126 * R_\text{back} + 0.7152 * G_\text{back} + 0.0722 * B_\text{back} $$
+$$ L_\text{front} = \sqrt{Y_\text{front} } $$
+$$ L_\text{back}  = \sqrt{Y_\text{back} } $$
 
 By mixing the foreground and background lightness using the coverage value, we
 now have the target lightness for that coverage value.
 
-$$ L\_\\text{target} = mix(L\_\\text{back}, L\_\\trext{front}, \\text{coverage}) $$
+$$ L_\text{target} = mix(L_\text{back}, L_\trext{front}, \text{coverage}) $$
 
 We can convert this target lightness to a target luminance, which can then be used to find
 the alpha value needed to reach that target from the foreground and background luminance.
 If the luminance of the background and foreground are the same, then only the color is
 different and we can linearly map the coverage to alpha.
 
-$$ Y\_\\text{target} = L\_\\text{target} * L\_\\text{target} $$
+$$ Y_\text{target} = L_\text{target} * L_\text{target} $$
 
 $$
 A =
-\\begin{cases}
-    (Y\_\\text{target} - Y\_\\text{back}) / (Y\_\\text{front} - Y\_\\text{back}), & \\text{if } Y\_\\text{front} \\ne Y\_\\text{back}\\\\
-    \\text{coverage}, & \text{otherwise}
-\\end{cases}
+\begin{cases}
+    (Y_\text{target} - Y_\text{back}) / (Y_\text{front} - Y_\text{back}), & \text{if } Y_\text{front} \ne Y_\text{back}\\
+    \text{coverage}, & \text{otherwise}
+\end{cases}
 $$
 
 ### Example
@@ -189,11 +189,11 @@ lightness |0.0 |0.25|1.0 |0.75|0.0 |   |1.0 |0.75|0.0 |0.25|1.0 |
 
 The perceived line width of "white on black-background" is:
 
-$$ \\text{width} = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
+$$ \text{width} = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
 
 The perceived line width of "black on white-background" is:
 
-$$ \\text{width} = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
+$$ \text{width} = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
 
 Sub-pixel anti-aliasing
 -----------------------
