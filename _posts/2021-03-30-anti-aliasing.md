@@ -139,8 +139,8 @@ final composite of the foreground and background color using the two alpha value
 
 $$ Y\_\\text{front} = 0.2126 * R\_\\text{front} + 0.7152 * G\_\\text{front} + 0.0722 * B\_\\text{front} $$
 $$ Y\_\\text{back}  = 0.2126 * R\_\\text{back} + 0.7152 * G\_\\text{back} + 0.0722 * B\_\\text{back} $$
-$$ L\_\\text{front} = \sqrt{Y\_\\text{front}} $$
-$$ L\_\\text{back}  = \sqrt{Y\_\\text{back}} $$
+$$ L\_\\text{front} = \sqrt{Y\_\\text{front} } $$
+$$ L\_\\text{back}  = \sqrt{Y\_\\text{back} } $$
 
 By mixing the foreground and background lightness using the coverage value, we
 now have the target lightness for that coverage value.
@@ -157,7 +157,7 @@ $$ Y\_\\text{target} = L\_\\text{target} * L\_\\text{target} $$
 $$
 A =
 \\begin{cases}
-    (Y\_\\text{target} - Y\_\\text{back}) / (Y\_\\text{front} - Y\_\\text{back}), & \\text{if } Y\_\\text{front} != Y\_\\text{back}
+    (Y\_\\text{target} - Y\_\\text{back}) / (Y\_\\text{front} - Y\_\\text{back}), & \\text{if } Y\_\\text{front} \\ne Y\_\\text{back}\\\\
     \\text{coverage}, & \text{otherwise}
 \\end{cases}
 $$
