@@ -68,9 +68,11 @@
 
 body {
     color: #dddddd;
+    font: initial;
     font-family: 'Lato';
     font-size: 12pt;
     font-weight: 300;
+    line-height: normal;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -87,16 +89,37 @@ em {
 }
 
 a {
-    color: #fffc79;
+    color: #ca5201;
     font-weight: 300;
     text-decoration: underline dashed;
     text-decoration-thickness: 1px;
     text-underline-offset: 1px;
 }
 
+menu, ol, ul {
+    padding: 0 0 0 25px;
+}
+
+a:hover {
+    color: #fffc79;
+}
+
+#header nav li {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 #header nav li a {
+    color: #fffc79;
     background-color: #ca5201;
     border-color: #882200;
+    text-decoration: none;
+}
+
+#header nav li a:hover {
+    color: #dddd66;
+    background-color: #882200;
+    border-color: #661100;
 }
 
 mjx-container {
