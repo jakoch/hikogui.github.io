@@ -138,14 +138,17 @@ final composite of the foreground and background color using the two alpha value
 0.0 and 1.0. This definition will allow for semi-transparent foreground colors.
 
 $$ Y_\text{front} = 0.2126 * R_\text{front} + 0.7152 * G_\text{front} + 0.0722 * B_\text{front} $$
+
 $$ Y_\text{back}  = 0.2126 * R_\text{back} + 0.7152 * G_\text{back} + 0.0722 * B_\text{back} $$
+
 $$ L_\text{front} = \sqrt{Y_\text{front} } $$
+
 $$ L_\text{back}  = \sqrt{Y_\text{back} } $$
 
 By mixing the foreground and background lightness using the coverage value, we
-now have the target lightness for that coverage value.
+now have the target lightness for that coverage (C) value.
 
-$$ L_\text{target} = mix(L_\text{back}, L_\trext{front}, \text{coverage}) $$
+$$ L_\text{target} = mix(L_\text{back}, L_\text{front}, C) $$
 
 We can convert this target lightness to a target luminance, which can then be used to find
 the alpha value needed to reach that target from the foreground and background luminance.
@@ -158,7 +161,7 @@ $$
 A =
 \begin{cases}
     (Y_\text{target} - Y_\text{back}) / (Y_\text{front} - Y_\text{back}), & \text{if } Y_\text{front} \ne Y_\text{back}\\
-    \text{coverage}, & \text{otherwise}
+    C, & \text{otherwise}
 \end{cases}
 $$
 
