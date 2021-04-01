@@ -148,7 +148,7 @@ $$ L_\text{back}  = \sqrt{Y_\text{back} } $$
 By mixing the foreground and background lightness using the coverage value, we
 now have the target lightness for that coverage (C) value.
 
-$$ L_\text{target} = mix(L_\text{back}, L_\text{front}, C) $$
+$$ L_\text{target} = \text{mix}(L_\text{back}, L_\text{front}, C) $$
 
 We can convert this target lightness to a target luminance, which can then be used to find
 the alpha value needed to reach that target from the foreground and background luminance.
@@ -160,8 +160,9 @@ $$ Y_\text{target} = L_\text{target} * L_\text{target} $$
 $$
 A =
 \begin{cases}
-    (Y_\text{target} - Y_\text{back}) / (Y_\text{front} - Y_\text{back}), & \text{if } Y_\text{front} \ne Y_\text{back}\\
-    C, & \text{otherwise}
+    \dfrac{Y_\text{target} - Y_\text{back} }{Y_\text{front} - Y_\text{back} } & \text{if } Y_\text{front} \ne Y_\text{back}\\
+    \\
+    C & \text{otherwise}
 \end{cases}
 $$
 

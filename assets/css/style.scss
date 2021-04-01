@@ -1,0 +1,105 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-Regular.eot");
+    src: url("../fonts/Lato-Regular.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-Regular.woff") format("woff"),
+         url("../fonts/Lato-Regular.ttf") format("truetype"),
+         url("../fonts/Lato-Regular.svg#OpenSansLight") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-Light.eot");
+    src: url("../fonts/Lato-Light.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-Light.woff") format("woff"),
+         url("../fonts/Lato-Light.ttf") format("truetype"),
+         url("../fonts/Lato-Light.svg#OpenSansLight") format("svg");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-LightItalic.eot");
+    src: url("../fonts/Lato-LightItalic.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-LightItalic.woff") format("woff"),
+         url("../fonts/Lato-LightItalic.ttf") format("truetype"),
+         url("../fonts/Lato-LightItalic.svg#OpenSansLight") format("svg");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'GentiumBasic';
+    src: url("../fonts/GentiumBasic-Italic.eot");
+    src: url("../fonts/GentiumBasic-Italic.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/GentiumBasic-Italic.woff") format("woff"),
+         url("../fonts/GentiumBasic-Italic.ttf") format("truetype"),
+         url("../fonts/GentiumBasic-Italic.svg#OpenSansLight") format("svg");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat-Bold.eot");
+    src: url("../fonts/Montserrat-Bold.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Montserrat-Bold.woff") format("woff"),
+         url("../fonts/Montserrat-Bold.ttf") format("truetype"),
+         url("../fonts/Montserrat-Bold.svg#OpenSansLight") format("svg");
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
+.right {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+body {
+    color: #dddddd;
+    font-family: 'Lato';
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat' !important;
+    font-weight: bold !important;
+    color: #ffffff;
+}
+
+em {
+    font-family: 'GentiumBasic';
+    font-weight: normal;
+    font-size: 13pt;
+    color: #c0c0c0;
+}
+
+a {
+    color: #fffc79;
+    font-weight: 300;
+    text-decoration: underline dashed;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 1px;
+}
+
+#header nav li a {
+    background-color: #ca5201;
+    border-color: #882200;
+}
+
+mjx-container {
+    color: #fffc79;
+}
+

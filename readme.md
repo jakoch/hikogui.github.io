@@ -1,5 +1,5 @@
 
-![the ttauri project: A modern, high-performance, retained-mode, gui library](/media/ttauri-logo-1300x282.png){:width="650px" height="141px"}
+![the ttauri project: A modern, high-performance, retained-mode, gui library](/assets/images/logos/ttauri-logo-1300x282.png){:width="650px" height="141px"}
 
 Documentation
 -------------
