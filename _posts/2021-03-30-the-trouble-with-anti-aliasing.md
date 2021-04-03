@@ -1,7 +1,24 @@
 ---
 layout: default
-title: Perceptive correct anti-aliasing
+title: The Trouble with Anti-Aliasing
 ---
+
+The Trouble with Anti-Aliasing
+==============================
+by: Take Vos
+
+When I was working on the font rendering in ttauri I found an issue where
+the text looked to have a different weight between the light and dark mode
+of my application.
+
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; linear anti-aliasing" %}
+
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="preceptional anti-aliasing" %}
+
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-subpixel.png" description="subpixel hor-RGB anti-aliasing" %}
+
+As you see above the weight of the text in light-mode was too thin, and the weight
+in dark-mode was too bold.
 
 Terms
 -----

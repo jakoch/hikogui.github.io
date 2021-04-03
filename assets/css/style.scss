@@ -66,6 +66,21 @@
     margin-right: 20px;
 }
 
+figure {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1EM;
+    text-align: center;
+}
+
+figure figcaption {
+    text-align: right;
+    font-family: 'GentiumBasic';
+    font-weight: normal;
+    font-size: 13pt;
+    color: #c0c0c0;
+}
+
 body {
     color: #dddddd;
     font: initial;
