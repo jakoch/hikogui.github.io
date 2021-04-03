@@ -13,12 +13,36 @@ of my application.
 
 {% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; linear anti-aliasing" %}
 
+The rendering above was done in a SDF (signed distance field) fragement-shader completely
+in linear space. And as you see the weight of the text in light-mode is too thin,
+and the weight in dark-mode is too bold. 
+
+So why is this happening? According to many articles about font rendering this
+is happening because we did the compositing in gamma space, we didn't, and we should
+use linear space; which we did.
+
+Other articles talk about that fonts are designed to be black-on-white and you
+should use stem-darkening. Which is weird because the stem darking is supposed to
+be done on the, already designed for-, black-on-white text.
+
+So I decided to look into what is really happening, and in short I found that
+you want to mix based on the perceived intended brightnes of the foreground
+and background colors.
+
+when compositing you need to take into account the perceptional lightness
+of the background and the foreground color and the intended 
+
+
+ sRGB -> XYZ -> xyY -> xyL |compositing| xyL -> xyY -> sRGB
+
 {% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="preceptional anti-aliasing" %}
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-subpixel.png" description="subpixel hor-RGB anti-aliasing" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-subpixel.png" description="horizontal-RGB subpixel anti-aliasing" %}
 
-As you see above the weight of the text in light-mode was too thin, and the weight
-in dark-mode was too bold.
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional-color.png" description="preceptional anti-aliasing color torture test" %}
+
+https://blog.johnnovak.net/2016/09/21/what-every-coder-should-know-about-gamma/
+Figure 8 
 
 Terms
 -----
