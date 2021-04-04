@@ -141,3 +141,7 @@ mjx-container {
     color: #fffc79;
 }
 
+section > mjx-container {
+    text-align: left !important;
+    padding-left: 20px;
+}

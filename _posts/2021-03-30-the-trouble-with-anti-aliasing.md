@@ -11,36 +11,36 @@ When I was working on the font rendering in ttauri I found an issue where
 the text looked to have a different weight between the light and dark mode
 of my application.
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; linear anti-aliasing" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; anti-aliasing in linear-sRGB color space" %}
 
-The rendering above was done in a SDF (signed distance field) fragement-shader completely
-in linear space. And as you see the weight of the text in light-mode is too thin,
-and the weight in dark-mode is too bold. 
+The rendering above was done inside the SDF (signed distance field)
+fragment-shader completely in linear-RGB color space. And as you see
+the weight of the text in light-mode is too thin, and the weight in dark-mode
+is too bold. 
 
 So why is this happening? According to many articles about font rendering this
-is happening because we did the compositing in gamma space, we didn't, and we should
-use linear space; which we did.
+is happening because we did the compositing in a gamma color space, we didn't;
+and we should use linear color space, which we did.
 
 Other articles talk about that fonts are designed to be black-on-white and you
 should use stem-darkening. Which is weird because the stem darking is supposed to
 be done on the, _already designed for_, black-on-white text.
 
 So I decided to investigate what is really happening here, and in short I found that
-our eyes expect a perceptional uniform gradient, which linear compositing
-does not give us.
-
+when anti-aliasing our eyes expect a perceptional uniform gradient, which does not
+happen when mixing the foreground and background color in a linear-RGB space.
 
 Doing the calculation
 ---------------------
 In this chapter I will show why a \\(1\\) pixel wide line will visual look
-like a \\(1.46\\) pixel wide line after anti-aliasing using linear compositing.
+like a \\(1.46\\) pixel wide line after anti-aliasing in a linear-RGB color space.
 
-For this example we will draw a pixel wide vertical line with its center
+For this example we will draw a one pixel wide vertical line with its center
 at \\(x = 1.75\\). The line is white on a black background, which means that
 the alpha of a pixel can be directly translated into linear luminance values.
 
-But since our eyes do not preceive luminance values as linear we will need
-to convert these values to lightnes values using the formula from CIELAB 1976.
+But since our eyes do not perceive luminance values as linear we will need
+to convert these values to lightness values using the formula from CIE L\*a\*b\* 1976.
 I filled in \\(Y_n = 1.0\\) into the formula and normalized \\(L\\) between \\(0.0\\)
 and \\(1.0\\) to make it easier to work with:
 
@@ -54,10 +54,10 @@ L =
 $$
 
 In the table below you can see a horizontal strip of 4 pixels, with the
-linear luminance values and the calculated lightness values. As you see our intended
-vertical line is \\(1\\) pixel wide. But after conversion to perceived lightness the line
-has become \\(1.46\\) pixels wide.
-
+linear luminance values and the perceptional uniform lightness values.
+As you see our intended vertical line is \\(1\\) pixel wide. But after
+we calculated what a human eye really perceives we find that the line is visually
+\\(1.46\\) pixels wide.
 
  | Description  |          0 |          1 |          2 |          3 | width
  |:------------ | ----------:| ----------:| ----------:| ----------:|:--------------------------------
@@ -65,62 +65,35 @@ has become \\(1.46\\) pixels wide.
  | Luminance    | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
  | Lightness    | \\(0.00\\) | \\(0.57\\) | \\(0.89\\) | \\(0.00\\) | \\( 1.46 = 0.57 + 0.89 \\)
 
-Don't: Compose in sRGB color space
-----------------------------------
-At this point you may think, okay, composit in sRGB space. The gamma transfer
-function used for sRGB approximates the preceived lightness.
+Don't: anti-alias in the sRGB color space
+-----------------------------------------
+At this point you may think, okay... anti-alias instead in the sRGB color space.
+The sRGB's transfer function (gamma), by design, already approximates the perceived lightness.
 
 This will actually work, up to a point. Many font rendering engines do this, probably after
-experimenting with linear compositing and not getting the desired results. And even
-image editors composited in a simular non-linear color space in the past.
+having experimented with linear anti-aliasing and not getting the desired results. And even
+image editors used to compose in a similar non-linear color spaces in the past.
 
 However instead of a uniform gradient between the foreground and the background the colors
-may be seriously distored. When using red on a green background for example the gradient
+may get seriously distorted. When using red on a green background for example the gradient
 passes into dark brown colors as shown in the image below.
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-perceptional-compositing.png" description="left: sRGB compositing, right: linear compositing" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-perceptional-compositing.png" description="left: compositing in the sRGB color space, right: compositing in linear-sRGB color space" %}
 
-Do: Compose in Luv color space
-------------------------------
-In the Luv color space the L element represents lightness and is perceptional uniform and the
-u and v elements are based on the blue and red components. This means that mixing two Luv-color
-values will mix both the lightness and color perceptionally uniform.
+Do: anti-alias in tLUV color space
+----------------------------------
+So we can't blend in either a linear-RGB space, nor in a uniform-RGB space. What we would like is a color
+space that allows us to blend the perceptional uniform lightness together with linear colors.
 
-The most accurate Luv color space would probably be CIE L*a*b* but this may be computationally
-to expensive. An simpler approximation based on linear-sRGB and using a square instead of a cube
-curve for lightness.
+The CIE L\*a\*b\* color space has a perceptional uniform lightness in one axis and a separate
+perceptional uniform color plane. The CIE L\*a\*b\* color space may be a valid color space
+to do anti-aliasing in, but it is computational expensive. I could not
+find a standard color space that was cheaper to use with similar properties so I made my own; the **tLUV**
+color space, which is described in the next chapter.
 
-RGB to Luv:
-
-$$
-\begin{align*}
-&Y = K_r \cdot R + K_g \cdot G + K_b \cdot B \\
-&L = \sqrt{Y},\, u = B - Y,\, v = R - Y
-\end{align*}
-$$
-
-Luv to RGB:
-
-$$
-\begin{align*}
-&Y = L^2\\
-&R = v + Y\\
-&G = Y - v \cdot K_v - u \cdot K_u\\
-&B = u + Y
-\end{align*}
-$$
-
-Using the constants:
-
-$$
-\begin{align*}
-&K_r = 0.2126,\, K_g = 0.7152,\, K_b = 0.0722\\
-&K_u = \frac{K_b}{K_g},\, K_v = \frac{K_r}{K_g}
-\end{align*}
-$$
-
-When we try to use Luv to draw that same one pixel vertical line from two chapter up. Using the
-Luv compositing we get a line width of \\(1.1\\) vs. \\(1.46\\) of linear compositing:
+When we try to use tLUV color space to anti-alias that same one pixel vertical line from the "_Doing the calculation_"
+chapter, we get a visual line width of \\(1.1\\) which is a serious improvement compared to linear-RGB anti-aliasing
+which resulted in a visual line width of \\(1.46\\).
 
 
  | Description  |          0 |          1   |          2   |          3 | width
@@ -129,41 +102,79 @@ Luv compositing we get a line width of \\(1.1\\) vs. \\(1.46\\) of linear compos
  | Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
  | Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\)
 
-Below is the result of using Luv, as you can see the font weight seems to be equal between the
-the light and dark modes:
+Below is the result of using tLUV, as you can see the font weight seems to be equal between light and dark modes:
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="Luv anti-aliasing" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="anti-aliasing in the tLUV color space" %}
 
-And the result of when using red text over green background, which shows no color distortion:
+As a torture test we also used tLUV on red text on a green background, which shows a good color interpolation
+between red and green without brown tints:
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional-color.png" description="Luv anti-aliasing torture test" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional-color.png" description="anti-aliasing in the tLUV color space: torture test" %}
 
-Subpixel anti-aliasing
-----------------------
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-subpixel.png" description="horizontal-RGB subpixel anti-aliasing" %}
+The tYUV and tLUV color spaces
+------------------------------
+The tYUV color space consists of 3 elements: Y = linear-luminosity, U = blue projection,
+V = red projection. Unlike most YUV format the U and V components are not scaled or offset
+and therefor need to be kept in floating point format. The calculation between tYUV and
+linear-RGB space requires only a few multiplication, add & subtract operations.
+
+As an approximation for the conversion of luminance to lightness I am using a simple
+square curve, which is simpler to calculate than the CIE L\*a\*b\* cubic curve.
+However for anti-aliasing of fonts it seems the approximation is good enough.
+
+linear-RGB to tYUV/tLUV:
+
+$$
+\begin{align*}
+Y &= K_r \cdot R + K_g \cdot G + K_b \cdot B \\
+L &= \sqrt(Y) \\
+U &= B - Y\\
+V &= R - Y
+\end{align*}
+$$
+
+tYUV/tLUV to linear-RGB:
+
+$$
+\begin{align*}
+Y &= L^2 \\
+R &= V + Y\\
+G &= Y - V \cdot K_v - U \cdot K_u\\
+B &= U + Y
+\end{align*}
+$$
+
+The constants used in the conversion are depended on the color-primaries of the
+RGB color space, they describe the contribution of each color component to the white-point:
+
+ | Name      |    sRGB/rec.709 |         rec.601 |
+ |:--------- | ---------------:| ---------------:|
+ | \\(K_r\\) | \\(0.2126\\)    | \\(0.299\\)     |
+ | \\(K_g\\) | \\(0.7152\\)    | \\(0.587\\)     |
+ | \\(K_b\\) | \\(0.0722\\)    | \\(0.114\\)     |
+ | \\(K_u\\) | \\(K_b / K_g\\) | \\(K_b / K_g\\) |
+ | \\(K_c\\) | \\(K_r / K_g\\) | \\(K_r / K_g\\) |
 
 
 Terms
 -----
 
 ### Linear-sRGB color space
-
 Linear-sRGB is an inaccurate term describing a color space based on
 the sRGB color primaries and white point, but with a linear transfer function.
 
-The color component values have a range between 0.0 and 1.0 and are represented
-as floating point values. In certain cases values outside the 0.0 to 1.0 range
-are allowed to handle luminance values beyond 80 cm/m2 for HDR, or negative values
+The color component values have a range between \\(0.0\\) and \\(1.0\\) and are represented
+as floating point values. In certain cases values outside the \\(0.0\\) to \\(1.0\\) range
+are allowed to handle luminance values beyond \\(80 cd/m^2\\) for HDR, or negative values
 which represent colors outside the triangle of the sRGB color primaries.
 
 This is the color space that is used inside fragment shaders on a GPU.
 
 ### Luminance (Y)
-
 The luminance is a physical linear indication of brightness.
 
-In this paper we use the range of luminance values between 0.0 and 1.0 to
-be mapped linear to 0 cd/m2 to 80 cd/m2; which is the standard range of
+In this paper we use the range of luminance values between \\(0.0\\) and \\(1.0\\) to
+be mapped linear to \\(0 cd/m^2\\) to \\(80 cd/m^2\\); which is the standard range of
 sRGB screen-luminance-level.
 
 The luminance value is calculated from the linear-sRGB values as follows:
@@ -179,12 +190,13 @@ for taking the square root, see the next section.
 <https://en.wikipedia.org/wiki/Relative_luminance>
 
 ### Lightness (L)
-
 Lightness is the perceptual uniform indication of brightness.
 
-In this paper we use the range of lightness values between 0.0 and 1.0 to
-be mapped non-linear to 0 cd/m2 to 80 cd/m2.  which is the standard range of
+In this blog post we use the range of lightness values between \(0.0\\) and \\(1.0\\) to
+be mapped non-linear to \\(0 cd/m^2\\) to \\(80 cd/m^2\\).  which is the standard range of
 [sRGB](https://en.wikipedia.org/wiki/SRGB) screen-luminance-level.
+
+The formula to convert luminance to CIE L\*a\*b\* lightness value is:
 
 $$
 f(t) =
@@ -195,126 +207,14 @@ f(t) =
 \end{cases}
 $$
 
-$$ L^* = 116 f \left( \dfrac{Y}{Y_n} \right) - 16 $$
+$$ L = 1.16 f \left( \dfrac{Y}{Y_n} \right) - 0.16 $$
 
-The lightness and luminance value can be translated as follows:
+The formula below is an approximation made in 1920, which is much faster to calculate
+in hardware.
 
 $$ L = \sqrt{Y} $$
 
 $$ Y = L * L $$
 
-The formula above is an approximation made in 1920, the current well accepted
-approximation is closer to cube-root curve with a linear section for dark values used
-in the 1976's CIELAB color space. However the square-root curve is accurate enough
-for the use-case of anti-aliasing glyphs and is much faster in hardware and easier to
-use when doing the calculations for this paper.
-
 <https://en.wikipedia.org/wiki/Lightness>
-
-
-The solution
-------------
-
-There are some papers that mention the problem of the change of apparent thickness
-of glyphs when rendering black text or white text. Most of those papers go on
-to explain this stems from not doing linear compositing, or explaining that the font
-was designed for black on white.
-
-However, as you see from the calculations in the previous section this has nothing to
-do with the design of a font, because it shows up even when rendering a single line.
-Also, if you would render the font without anti-aliasing these problems no longer
-exist, such as when rendering with a high resolution printer.
-
-Problems like this even happen with physical anti-alias filters, such as when using
-an anti-alias glass in front of an image sensor, which scatter the photons over range
-of pixels. It often shows as a reduction of contrast of textured images and on sharp edges,
-normally this is solved by increasing the contrast of high frequency content, such
-as using a sharpen-filter, or with professional cameras using an equalizer tuned on
-the whole optical system.
-
-Since with computer graphics we have control over anti-aliasing itself
-we can make the algorithm mix the foreground and background color on a
-perceptional uniform gradient.
-
-The calculation below shows how to convert an anti-alias-pixel-coverage value
-to an alpha value, when this pixel coverage is in a perceptional uniform space.
-
-First we need to calculate the foreground and background lightness, based on the
-final composite of the foreground and background color using the two alpha values
-0.0 and 1.0. This definition will allow for semi-transparent foreground colors.
-
-$$ Y_\text{front} = 0.2126 * R_\text{front} + 0.7152 * G_\text{front} + 0.0722 * B_\text{front} $$
-
-$$ Y_\text{back}  = 0.2126 * R_\text{back} + 0.7152 * G_\text{back} + 0.0722 * B_\text{back} $$
-
-$$ L_\text{front} = \sqrt{Y_\text{front} } $$
-
-$$ L_\text{back}  = \sqrt{Y_\text{back} } $$
-
-By mixing the foreground and background lightness using the coverage value, we
-now have the target lightness for that coverage (C) value.
-
-$$ L_\text{target} = \text{mix}(L_\text{back}, L_\text{front}, C) $$
-
-We can convert this target lightness to a target luminance, which can then be used to find
-the alpha value needed to reach that target from the foreground and background luminance.
-If the luminance of the background and foreground are the same, then only the color is
-different and we can linearly map the coverage to alpha.
-
-$$ Y_\text{target} = L_\text{target} * L_\text{target} $$
-
-$$
-A =
-\begin{cases}
-    \dfrac{Y_\text{target} - Y_\text{back} }{Y_\text{front} - Y_\text{back} } & \text{if } Y_\text{front} \ne Y_\text{back}\\
-    \\
-    C & \text{otherwise}
-\end{cases}
-$$
-
-### Example
-
-Below we calculate what we will perceptional see when anti-aliasing a vertical
-line of two pixels wide centered at x=2.25. On the left side a white line
-on black background and on the right side the black line on a white background.
-
-```
-           white on black-background    black on white-background
-          +----+----+----+----+----+   +----+----+----+----+----+
-coverage  | 0% |25% |100%|75% | 0% |   | 0% |25% |100%|75% | 0% |
-          +----+----+----+----+----+   +----+----+----+----+----+
-                                        ((1 - coverage)^2 - 1) / -1
-          +----+----+----+----+----+   +----+----+----+----+----+
-alpha     |0.0 |.062|1.0 |.562|0.0 |   |0.0 |.438|1.0 |.938|0.0 |
-          +----+----+----+----+----+   +----+----+----+----+----+
-                                        1 - alpha
-          +----+----+----+----+----+   +----+----+----+----+----+
-luminance |0.0 |.062|1.0 |.562|0.0 |   |1.0 |.562|0.0 |.062|1.0 |
-          +----+----+----+----+----+   +----+----+----+----+----+
-                                        sqrt(luminance)
-          +----+----+----+----+----+   +----+----+----+----+----+
-lightness |0.0 |0.25|1.0 |0.75|0.0 |   |1.0 |0.75|0.0 |0.25|1.0 |
-          +----+----+----+----+----+   +----+----+----+----+----+
-```
-
-The perceived line width of "white on black-background" is:
-
-$$ \text{width} = 0.0 + 0.25 + 1.0 + 0.75 + 0.0 = 2 $$
-
-The perceived line width of "black on white-background" is:
-
-$$ \text{width} = 5 - (1.0 + 0.75 + 0.0 + 0.25 + 1.0) = 2 $$
-
-Sub-pixel anti-aliasing
------------------------
-
-During sub-pixel anti-aliasing we get a coverage value at each
-sub-pixel location.
-
-For a perceptional conversion of those coverage value to an alpha
-value we are interested in the lightness of the full pixel after
-compositing with the two alpha values of 0.0 and 1.0.
-
-After that we have an alpha value for each sub-pixel, then we do
-linear compositing on each sub-pixel separate.
 
