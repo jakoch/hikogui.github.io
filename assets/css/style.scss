@@ -76,9 +76,10 @@ figure {
 figure figcaption {
     text-align: right;
     font-family: 'GentiumBasic';
+    font-style: italic;
     font-weight: normal;
     font-size: 13pt;
-    color: #c0c0c0;
+    color: #dddd66;
 }
 
 body {
@@ -119,9 +120,13 @@ a:hover {
     color: #fffc79;
 }
 
-#header nav li {
-    margin-left: 10px;
+#header nav li.fork {
     margin-right: 10px;
+}
+
+#header nav li.title {
+    margin-left: 10px;
+    margin-right: 0px;
 }
 
 #header nav li a {

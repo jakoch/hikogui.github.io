@@ -155,6 +155,23 @@ RGB color space, they describe the contribution of each color component to the w
  | \\(K_u\\) | \\(K_b / K_g\\) | \\(K_b / K_g\\) |
  | \\(K_c\\) | \\(K_r / K_g\\) | \\(K_r / K_g\\) |
 
+How to do this on Vulkan
+------------------------
+Vulkan's fixed pipeline alpha compositing does not have a mode for compositing
+in tLUV color space. So compositing needs to be done in the fragment shader itself.
+
+Vulkan has the possibility to use the output attachment from a previous sub-pass
+as the input attachement for the current shader. An input attachment works a bit
+like a texture map except that you can only read the pixel at the current fragment
+coordinate. Input attachments are actually quite fast especially on tile based GPU
+on mobile devices since the memory for the tile is located on the GPU-asic itself.
+
+It seems that it is no longer possible to use the input attachment as an output attachment
+at the same time, since the image must be in two different layouts at the same time. So
+you will need to write to a new output attachment.
+
+There must be a full-window post-process sub-pass which will combine the background with the
+output of the text render pass which select pixels based on their non-zero alpha.
 
 Terms
 -----
