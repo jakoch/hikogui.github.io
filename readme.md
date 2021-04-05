@@ -9,10 +9,10 @@ It is specifically designed to display dynamic information at the screen's
 refresh rate. Special care is taken for making it easy for GUI element to
 observe and modify data external to the GUI.
 
-{% include figure.html url="/assets/images/screenshots/demo_v0.2.0.gif" description="Screen capture of the ttauri demo application." %}
-
 Features
 --------
+{% include figure.html url="/assets/images/screenshots/demo_v0.2.0.gif" description="Screen capture of the ttauri demo application." %}
+
  - Retained-mode GUI
  - High level API to make simple desktop applications.
  - Modern C++20 library.
