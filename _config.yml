@@ -2,5 +2,6 @@ theme: jekyll-theme-midnight
 markdown: kramdown
 kramdown:
   math_engine: MathJax
+  syntax_highlighter: coderay
 include:
   - "_*.html"
