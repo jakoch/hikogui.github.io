@@ -1,11 +1,12 @@
 ---
 layout: default
-title: The unfair mutex
+title: The Unfair Mutex
 ---
 
-The Unfair mutex
-================
-by: Take Vos
+{{page.title}}
+==============
+- by: Take Vos
+- date: {{page.date | date_to_string}}
 
 When working on TTauri GUI system I needed a recursive mutex that is used often.
 However `std::recursive_mutex` implementations can be extremely heavy, dwarfing

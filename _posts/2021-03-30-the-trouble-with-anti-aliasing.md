@@ -3,9 +3,10 @@ layout: default
 title: The Trouble with Anti-Aliasing
 ---
 
-The Trouble with Anti-Aliasing
-==============================
-by: Take Vos
+{{page.title}}
+==============
+- by: Take Vos
+- date: {{page.date | date_to_string}}
 
 When I was working on the font rendering in ttauri I found an issue where
 the text looked to have a different weight between the light and dark mode
