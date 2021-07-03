@@ -13,19 +13,18 @@ on:
     branches:
       - main
       - doc_fixes
-    # trigger this workflow, on receiving the repo_dispatch event type "build_documentation"
-    repository_dispatch:
-      types: [build_documentation]
-    # add button to trigger this workflow manually
-    workflow_dispatch:
+
+  # trigger this workflow, on receiving the repo_dispatch event type "build_documentation"
+  repository_dispatch:
+    types: [build_documentation]
+
+  # add button to trigger this workflow manually
+  workflow_dispatch:
 
 jobs:
-
   build-docs:
     name: Generate Documentation
-
     runs-on: ubuntu-20.04
-
     steps:
       # Checks out a copy of your repository.
       - name: 🤘 Checkout Code
