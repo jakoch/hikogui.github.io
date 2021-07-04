@@ -56,7 +56,9 @@ jobs:
         run: |
           cd ttauri
           git fetch --tags
-          (echo "main" && git tag -l --sort=-version:refname "v*") > ../ttauri_versions.txt
+          echo "main" >../ttauri_versions.txt
+          git branch -l --no-column | cut -c 3- | grep -v "main" >>../ttauri_versions.txt
+          git tag -l --sort=-version:refname "v*") >> ../ttauri_versions.txt
           echo "Available versions:" && cat ../ttauri_versions.txt
           git tag --sort=committerdate | tail -1 | cut -c2- > ../ttauri_latest_version.txt
           echo "Latest version:" && cat ../ttauri_latest_version.txt
