@@ -11,23 +11,35 @@ observe and modify data external to the GUI.
 
 Features
 --------
-{% include figure.html url="/assets/images/screenshots/demo_v0.2.0.gif" description="Screen capture of the ttauri demo application." %}
 
- - Retained-mode GUI
  - High level API to make simple desktop applications.
  - Modern C++20 library.
+ - Retained-mode GUI.
+ - GUI will dynamically track the state of the application.
  - Animation at the screen's refresh rate.
- - GPU accelerated drawing, using a Vulkan backend.
- - Subpixel anti-aliased text with kerning.
+
+{% include figure.html url="/assets/images/screenshots/audio_device_change.gif" description="Audio Selection tracking devices in real time" %}
+
+ - Localization and translation.
+
+{% include figure.html url="/assets/images/screenshots/language_change.gif" description="Multiple language support" %}
+
+ - Themes; including light/dark support.
+ - Editable key-bindings.
+
+{% include figure.html url="/assets/images/screenshots/demo_dark_and_light.gif" description="Themes with dark and light mode" %}
+
+ - Most or all drawing is GPU accelerated with Vulkan.
+ - Text is drawn using kerning, perceptional correct blending and subpixel anti-aliasing.
  - High dynamic range and high gamut color handling.
- - Themes, including light/dark support.
- - Key-bindings.
- - Text translations.
+
+{% include figure.html url="/assets/images/screenshots/subpixel_glyphs.gif" description="Subpixel anti-aliasing" %}
+
+ - Automatic application preferences storage.
  - Many support systems:
-   + automatic preferences,
    + logging,
    + statistics,
-   + text-handling,
+   + text handling,
    + text template language,
    + expression language,
    + dynamic type system.
