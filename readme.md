@@ -27,13 +27,13 @@ Features
  - Themes; including light/dark support.
  - Editable key-bindings.
 
-{% include figure.html url="/assets/images/screenshots/demo_dark_and_light.gif" description="Themes with dark and light mode" %}
+{% include figure.html url="/assets/images/screenshots/demo_dark_and_light.png" description="Themes with dark and light mode" %}
 
  - Most or all drawing is GPU accelerated with Vulkan.
  - Text is drawn using kerning, perceptional correct blending and subpixel anti-aliasing.
  - High dynamic range and high gamut color handling.
 
-{% include figure.html url="/assets/images/screenshots/subpixel_glyphs.gif" description="Subpixel anti-aliasing" %}
+{% include figure.html url="/assets/images/screenshots/subpixel_glyphs.png" description="Subpixel anti-aliasing" %}
 
  - Automatic application preferences storage.
  - Many support systems:
