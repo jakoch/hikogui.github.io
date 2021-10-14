@@ -9,6 +9,39 @@ It is specifically designed to display dynamic information at the screen's
 refresh rate. Special care is taken for making it easy for GUI element to
 observe and modify data external to the GUI.
 
+News: Release-0.5.1 Bad Butterfly
+---------------------------------
+
+In the attempt to write easy to understand documentation for several of
+ttauri's systems, I reworked the API to make this easier.
+
+One of the more difficult things was to manage the global lifetime of the
+subsystems. I was able to simplify this by allowing these subsystems to be
+local variables. This was done to the: gui\_system, gfx\_system, audio\_system,
+vertical\_sync, theme\_book, font\_book, keyboard\_bindings and preferences.
+   
+ * Wrote a how-to for logging, counting and tracing:
+   - Improved performance of counters.
+   - Improved performance of tracing.
+   - Replaced time-stamping implementation in reference to `std::chrono::utc_clock`.
+ * Wrote a how-to for application preference:
+   - Implemented JSON-path for selecting values in a JSON file.
+   - Implement `tt::pickle` system to convert between custom types and
+     the dynamic data type `tt::datum`.
+   - Reimplemented observables with better automatic ownership model and
+     better callback handling.
+   - Multiple preference-files may now be opened at the same time.
+ * Preparing for a how-to for writing custom widgets:
+   - Replaced flat shader with a better optimized rounded box shader.
+ * Add address-sanitizer builds.
+ * Finalize BON8 (Binary Object Notation 8) specification.
+ * Add support for using ttauri as a CMake-FetchContent dependency. 
+
+_vcpkg builds are not recommended at the moment due to future
+changes of std::format and std::ranges to the c++20 standard.
+Please build using non-vcpkg to ensure matching versions of cmake
+and the MSVC compiler._
+
 Features
 --------
 
