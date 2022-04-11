@@ -1,5 +1,5 @@
 
-![the ttauri project: A modern, high-performance, retained-mode, gui library](/assets/images/logos/ttauri-logo-1300x282.png){:width="650px" height="141px"}
+![HikoGUI: A modern, high-performance, retained-mode, gui library](/assets/images/logos/hikogui-logo-1300x282.png){:width="650px" height="141px"}
 
 [Take Vos](https://github.com/takev/) started this library to make a portable,
 high performance and modern looking GUI framework. Which may be used in
@@ -13,7 +13,7 @@ News: Release-0.5.1 Bad Butterfly
 ---------------------------------
 
 In the attempt to write easy to understand documentation for several of
-ttauri's systems, I reworked the API to make this easier.
+hikogui's systems, I reworked the API to make this easier.
 
 One of the more difficult things was to manage the global lifetime of the
 subsystems. I was able to simplify this by allowing these subsystems to be
@@ -35,7 +35,7 @@ vertical\_sync, theme\_book, font\_book, keyboard\_bindings and preferences.
    - Replaced flat shader with a better optimized rounded box shader.
  * Add address-sanitizer builds.
  * Finalize BON8 (Binary Object Notation 8) specification.
- * Add support for using ttauri as a CMake-FetchContent dependency. 
+ * Add support for using hikogui as a CMake-FetchContent dependency. 
 
 _vcpkg builds are not recommended at the moment due to future
 changes of std::format and std::ranges to the c++20 standard.

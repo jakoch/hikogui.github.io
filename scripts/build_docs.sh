@@ -1,12 +1,12 @@
 #!/bin/bash
 
-TAGS=$(<ttauri_versions.txt)
+TAGS=$(<hikogui_versions.txt)
 
 for TAG in ${TAGS}
 do
   echo "Checking out version: $TAG"
 
-  (cd ttauri; git checkout -q "${TAG}")
+  (cd hikigui; git checkout -q "${TAG}")
 
   if [[ $TAG == v* ]];
   then
@@ -16,14 +16,14 @@ do
   fi
 
   echo "Environment variables used by Doxygen config:"
-  export TTAURI_TAG="${TAG}"
-  export TTAURI_VERSION="${VER}"
-  echo "TTAURI_TAG     -> $TTAURI_TAG"
-  echo "TTAURI_VERSION -> $TTAURI_VERSION"
+  export HIKOGUI_TAG="${TAG}"
+  export HIKOGUI_VERSION="${VER}"
+  echo "HIKOGUI_TAG     -> $HIKOGUI_TAG"
+  echo "HIKOGUI_VERSION -> $HIKOGUI_VERSION"
 
-  mkdir -p "docs/ttauri/${TTAURI_VERSION}"
+  mkdir -p "docs/hikogui/${HIKOGUI_VERSION}"
 
-  echo " - [${TTAURI_VERSION}](ttauri/${TTAURI_VERSION})" >> scripts/docs_readme.md
+  echo " - [${HIKOGUI_VERSION}](hikogui/${HIKOGUI_VERSION})" >> scripts/docs_readme.md
 
   echo "Current working dir: $PWD"
 

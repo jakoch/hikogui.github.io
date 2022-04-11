@@ -8,7 +8,7 @@ title: The Unfair Mutex
 - by: Take Vos
 - date: {{page.date | date_to_string}}
 
-When working on TTauri GUI system I needed a recursive mutex that is used often.
+When working on HikoGUI system I needed a recursive mutex that is used often.
 However `std::recursive_mutex` implementations can be extremely heavy, dwarfing
 the amount of code it's protecting.
 
@@ -41,7 +41,7 @@ assert-protected-function at least once.
 But the `recurse_lock_count()` function is also very fast, faster than taking a recursive
 lock, so a check in release builds may be a good idea in certain cases.
 
-In TTauri a global `gui_system_mutex` is used by widgets, windows, devices, graphic-pipelines,
+In HikoGUI a global `gui_system_mutex` is used by widgets, windows, devices, graphic-pipelines,
 draw-context and more. Many of the functions in the GUI system only assert on the
 `recurse_lock_count()` in expectation that most calls are recursive from somewhere else
 in the GUI system. A mixture of some functions asserting and other functions recursively

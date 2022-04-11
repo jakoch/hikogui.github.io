@@ -1,7 +1,7 @@
 /**
  * Copyright 2021 Jens A. Koch.
  * SPDX-License-Identifier: BSL-1.0
- * This file is part of ttauri-project.
+ * This file is part of hikogui.
  */
 (function() {
   'use strict';
@@ -10,15 +10,15 @@
 
   var versions = @VERSIONS@;
 
-  var url_web = /(ttauri-project\.org\/docs\/ttauri\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
+  var url_web = /(hikogui\.org\/docs\/hikogui\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
 
-  var url_dev = /(jakoch\.github\.io\/ttauri-project\.github\.io\/docs\/ttauri\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
+  var url_dev = /(jakoch\.github\.io\/hikogui\.github\.io\/docs\/hikogui\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
 
   function build_dropdown(current_version) {
     // display a warning message, when user switches to "main" development branch
     if (current_version == 'main') {
       var alert_div = document.createElement("div");
-      alert_div.innerHTML = '⚠️ This documents the <a style="font-family: monospace;" href="https://github.com/ttauri-project/ttauri/tree/main">main</a> development branch of TTauri. It might differ from release versions.';
+      alert_div.innerHTML = '⚠️ This documents the <a style="font-family: monospace;" href="https://github.com/hikogui/hikogui/tree/main">main</a> development branch of HikoGUI. It might differ from release versions.';
       alert_div.style.cssText = "color: #856404; background-color: #fff3cd; border-color: #ffeeba; margin: 5px 10px; padding: 5px; border-radius: 1ex; display: inline;"
       var dropdownNode = $("#project_version_dropdown")[0];
       $(alert_div).insertAfter(dropdownNode);
@@ -27,7 +27,7 @@
     // display a warning message, when user switches to an "old version"
     if (current_version.localeCompare(latest_version, undefined, { numeric: true, sensitivity: 'base' }) == -1) {
       var oldver_alert_div = document.createElement("div");
-      oldver_alert_div.innerHTML = '⚠️ This documents an old version of TTauri. <a href="https://www.ttauri-project.org/docs/ttauri/'+latest_version+'">Switch to the latest release.</a> Or, select a version from the drop-down menu.';
+      oldver_alert_div.innerHTML = '⚠️ This documents an old version of HikoGUI. <a href="https://hikogui.org/docs/hikogui/'+latest_version+'">Switch to the latest release.</a> Or, select a version from the drop-down menu.';
       oldver_alert_div.style.cssText = "color: #856404; background-color: #fff3cd; border-color: #ffeeba; margin: 5px 10px; padding: 5px; border-radius: 1ex; display: inline;"
       var dropdownNode = $("#project_version_dropdown")[0];
       $(oldver_alert_div).insertAfter(dropdownNode);
@@ -54,10 +54,10 @@
   }
 
   function update_url(url, new_version) {
-    if(url.includes("ttauri-project.org")) {
-      return url.replace(url_web, 'ttauri-project.org/docs/ttauri/' + new_version + '/');
+    if(url.includes("hikogui.org")) {
+      return url.replace(url_web, 'hikogui.org/docs/hikigui/' + new_version + '/');
     } else {
-      return url.replace(url_dev, 'jakoch.github.io/ttauri-project.github.io/docs/ttauri/' + new_version + '/');
+      return url.replace(url_dev, 'jakoch.github.io/hikogui.github.io/docs/hikigui/' + new_version + '/');
     }
   }
 

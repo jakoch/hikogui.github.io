@@ -3,7 +3,7 @@
 #
 # Copyright 2021 Jens A. Koch.
 # SPDX-License-Identifier: BSL-1.0
-# This file is part of ttauri-project.
+# This file is part of hikogui.
 #
 
 name: Documentation Pipeline
@@ -47,34 +47,34 @@ jobs:
       # Get the source repository, for which we want to generate the documentation for.
       - name: 🔽 Get Source Repository
         run: |
-          rm -rf ttauri
-          git clone https://github.com/ttauri-project/ttauri.git ttauri
+          rm -rf hikogui
+          git clone https://github.com/hikogui/hikogui.git hikogui
 
-      # ttauri_versions.txt: Get the list of version numbers from git tags, sorted in reverse and add "main" on top.
-      # ttauri_latest_version.txt: Get latest tag version without "v" prefix.
+      # hikogui_versions.txt: Get the list of version numbers from git tags, sorted in reverse and add "main" on top.
+      # hikogui_latest_version.txt: Get latest tag version without "v" prefix.
       - name: 🖉 Get Versions
         run: |
-          cd ttauri
+          cd hikogui
           git fetch --tags
-          ../scripts/get_versions.sh >../ttauri_versions.txt
-          echo "Available versions:" && cat ../ttauri_versions.txt
-          git tag --sort=committerdate | tail -1 | cut -c2- > ../ttauri_latest_version.txt
-          echo "Latest version:" && cat ../ttauri_latest_version.txt
+          ../scripts/get_versions.sh >../hikogui_versions.txt
+          echo "Available versions:" && cat ../hikogui_versions.txt
+          git tag --sort=committerdate | tail -1 | cut -c2- > ../hikogui_latest_version.txt
+          echo "Latest version:" && cat ../hikogui_latest_version.txt
 
       # Convert version data from txt to json.
       - name: 🖉 Create versions.json
         run: |
-          echo "{\"latest_version\":\"$(<ttauri_latest_version.txt)\"}" > ttauri_latest_version.json
-          cat ttauri_versions.txt | jq -Rsc 'split("\n") | map(select(. != "")) | .[]|ltrimstr("v")' | jq -s '{ versions: . }' > ttauri_versions.json
-          jq -s '.[0] + .[1]' ttauri_latest_version.json ttauri_versions.json | jq -c '{ttauri: [.] }' > versions.json
+          echo "{\"latest_version\":\"$(<hikogui_latest_version.txt)\"}" > hikogui_latest_version.json
+          cat hikogui_versions.txt | jq -Rsc 'split("\n") | map(select(. != "")) | .[]|ltrimstr("v")' | jq -s '{ versions: . }' > hikogui_versions.json
+          jq -s '.[0] + .[1]' hikogui_latest_version.json hikogui_versions.json | jq -c '{hikogui: [.] }' > versions.json
           echo "versions.json:" && cat versions.json
 
       # Insert version data into dropdown script, replacing tokens @LATEST_VERSION@ and @VERSIONS@.
       - name: 🖉 Update dropdown_menu.js
         run: |
-          VERSIONS=`jq -c '.ttauri[] | .versions' versions.json`
+          VERSIONS=`jq -c '.hikogui[] | .versions' versions.json`
           sed -i "s|@VERSIONS@|$VERSIONS|" scripts/version_dropdown.js
-          LATEST_VERSION=`jq -c '.ttauri[] | .latest_version' versions.json`
+          LATEST_VERSION=`jq -c '.hikogui[] | .latest_version' versions.json`
           sed -i "s|@LATEST_VERSION@|$LATEST_VERSION|" scripts/version_dropdown.js
 
       # Run doxygen on the checkout of each tag to generate documentation for each version.
@@ -88,8 +88,8 @@ jobs:
       # Delete all files, which should not be published on the website branch.
       - name: ✗ Pre-Commit Cleanup
         run: |
-          rm .gitignore ttauri_*.txt ttauri_*.json
-          rm -rf .git .github scripts ttauri
+          rm .gitignore hikogui_*.txt hikogui_*.json
+          rm -rf .git .github scripts hikogui
           ls
 
       # Re-initialize the cleaned repo and commit it.
@@ -97,7 +97,7 @@ jobs:
         run: |
           git init
           git add -A
-          git config --local user.email "github-actions[bot]@users.noreply.ttauri-project.org"
+          git config --local user.email "github-actions[bot]@users.noreply.hikogui.org"
           git config --local user.name "github-actions[bot]"
           git commit -m "Publish docs from ${GITHUB_REPOSITORY}@${GITHUB_SHA:0:9}"
 
