@@ -9,38 +9,39 @@ It is specifically designed to display dynamic information at the screen's
 refresh rate. Special care is taken for making it easy for GUI element to
 observe and modify data external to the GUI.
 
-News: Release-0.5.1 Bad Butterfly
+News: Release-0.6.0 Dizzy Donkey
 ---------------------------------
 
-In the attempt to write easy to understand documentation for several of
-hikogui's systems, I reworked the API to make this easier.
+The focus in this release is on improving the API, documentation and examples for
+creating custom widgets and drawing. As an extra I've added the beginnings of
+coroutine support. Coroutines is a good way of managing the lifetime and interaction
+of windows and their widgets. I am excited to find out if and how coroutines may help
+with making applications.
 
-One of the more difficult things was to manage the global lifetime of the
-subsystems. I was able to simplify this by allowing these subsystems to be
-local variables. This was done to the: gui\_system, gfx\_system, audio\_system,
-vertical\_sync, theme\_book, font\_book, keyboard\_bindings and preferences.
-   
- * Wrote a how-to for logging, counting and tracing:
-   - Improved performance of counters.
-   - Improved performance of tracing.
-   - Replaced time-stamping implementation in reference to `std::chrono::utc_clock`.
- * Wrote a how-to for application preference:
-   - Implemented JSON-path for selecting values in a JSON file.
-   - Implement `tt::pickle` system to convert between custom types and
-     the dynamic data type `tt::datum`.
-   - Reimplemented observables with better automatic ownership model and
-     better callback handling.
-   - Multiple preference-files may now be opened at the same time.
- * Preparing for a how-to for writing custom widgets:
-   - Replaced flat shader with a better optimized rounded box shader.
- * Add address-sanitizer builds.
- * Finalize BON8 (Binary Object Notation 8) specification.
- * Add support for using hikogui as a CMake-FetchContent dependency. 
+ * The ttauri project is renamed to HikoGUI.
+ * The drawing API is more consistent and capable; for example adding
+   color gradients, convex quads and allowing glyphs to be overlapped.
+ * Improved text rendering:
+   - Improved quality of rendering of text by aligning to sub-pixel boundaries..
+   - Improved text shaping of multiple paragraphs
+   - Better bidirectional text and cursor support.
+ * A central API to retrieve user-settings from the operating system,
+   including a notifier for the application to directly react on changes.
+ * Multi-monitor and DPI scaling support.
+ * Improved more efficient and performant event-loop:
+   - Thread-local, main-thread and timer-thread event-loops.
+   - Event loop can handle: sockets, gui-events, timers, posted functions, vertical sync.
+   - Blocks on all these events for efficiency and reaction speed.
+ * Improved signaling:
+   - Faster and easier to use `observer` objects.
+   - `notifier` objects will always post functions on the thread-local event loop,
+     this makes it safer to use, as it elliminates reentrancy.
+   - Awaiting on `notifier` and `observer` objects and which adds coroutine support
+     to handle GUI interactions.
 
-_vcpkg builds are not recommended at the moment due to future
-changes of std::format and std::ranges to the c++20 standard.
-Please build using non-vcpkg to ensure matching versions of cmake
-and the MSVC compiler._
+_vcpkg builds are not supported due to problems with c++20 incompatibilties._
+
+_Currently can not be build with Visual Studio 2022 Preview due to compiler bugs._
 
 Features
 --------
