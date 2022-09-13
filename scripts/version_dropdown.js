@@ -55,9 +55,9 @@
 
   function update_url(url, new_version) {
     if(url.includes("hikogui.org")) {
-      return url.replace(url_web, 'hikogui.org/docs/hikigui/' + new_version + '/');
+      return url.replace(url_web, 'hikogui.org/docs/hikogui/' + new_version + '/');
     } else {
-      return url.replace(url_dev, 'jakoch.github.io/hikogui.github.io/docs/hikigui/' + new_version + '/');
+      return url.replace(url_dev, 'jakoch.github.io/hikogui.github.io/docs/hikogui/' + new_version + '/');
     }
   }
 
