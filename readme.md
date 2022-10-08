@@ -1,5 +1,5 @@
 
-![HikoGUI: A modern, high-performance, retained-mode, gui library](/assets/images/logos/hikogui-logo-1300x282.png){:width="650px" height="141px"}
+![HikoGUI: A modern, high-performance, retained-mode, gui library](/assets/images/logos/hikogui-logo-1000x280.png){:width="500px" height="140px"}
 
 [Take Vos](https://github.com/takev/) started this library to make a portable,
 high performance and modern looking GUI framework. Which may be used in
