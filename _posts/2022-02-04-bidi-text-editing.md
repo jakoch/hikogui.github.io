@@ -17,10 +17,10 @@ Glossary and Symbols
  - LTR: text written in a left-to-right language.
  - RTL: text written in a right-to-left language.
  - Leading: the cursor position before a character in logical ordering
- - Trailing: the cusror position after a character in logical ordering.
+ - Trailing: the cursor position after a character in logical ordering.
  - East: The cursor position to the right of a character in display order.
  - West: The cursor position to the left of a character in display order.
- - Neighbour: 
+ - Neighbor: 
 
 Symbols used in examples:
 
@@ -34,18 +34,18 @@ Symbols used in examples:
 Rendering the insert cursors
 ----------------------------
 There are two cursors when editing text, the primary cursor which is the
-actual cursor position, the secondary cursor is the neighbouring cursor.
+actual cursor position, the secondary cursor is the neighboring cursor.
 
 The LTR cursor is where left-to-right text will be inserted, it is displayed
 with a little flag at the top pointing to the right. The RTL cursor is the
 reverse.
 
-The primary cursor is the actual cursor position; the secondary is the neighbouring
+The primary cursor is the actual cursor position; the secondary is the neighboring
 cursor position in logical text-ordering, the secondary cursor is drawn in a different
 color.
 
 When the primary and secondary cursor share the same position in display order, then
-the secondary cursor supressed as is the LTR/RTL-flag on the primary cursor.
+the secondary cursor suppressed as is the LTR/RTL-flag on the primary cursor.
 This means in most cases when writing in one direction it will seem like there is
 just a single cursor.
 
@@ -55,10 +55,10 @@ to be before the letter 'R' in logical order.
 
 - Because the 'R' is a RTL character, the primary cursor will appear on its right
   and will be a RTL cursor.
-- The neighbouring cursor in display order is behind the 'e' character.
+- The neighboring cursor in display order is behind the 'e' character.
   Since this is a LTR character, the secondary cursor will be displayed on the right
   side of the 'e' and will be a LTR cursor.
-- The primary and secondary cursors are not neighbours in display order, so both
+- The primary and secondary cursors are not neighbors in display order, so both
   cursors will be displayed.
 
 ```
