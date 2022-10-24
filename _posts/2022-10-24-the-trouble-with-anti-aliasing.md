@@ -1,6 +1,6 @@
 ---
 layout: default
-title: The Trouble with Anti-Aliasing
+title: The Trouble with Anti-Aliasing (updated)
 ---
 
 {{page.title}}
@@ -12,7 +12,7 @@ When I was working on the font rendering in HikoGUI I found an issue where
 the text looked to have a different weight between the light and dark mode
 of my application.
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; anti-aliasing in linear-sRGB color space" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp;sarcasm) anti-aliasing in linear-sRGB color space" %}
 
 The rendering above was done inside the SDF (signed distance field)
 fragment-shader completely in linear-RGB color space. And as you see
@@ -60,11 +60,12 @@ As you see our intended vertical line is \\(1\\) pixel wide. But after
 we calculated what a human eye really perceives we find that the line is visually
 \\(1.46\\) pixels wide.
 
- | Description  |          0 |          1 |          2 |          3 | width
- |:------------ | ----------:| ----------:| ----------:| ----------:|:--------------------------------
- | Alpha        | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
- | Luminance    | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
- | Lightness    | \\(0.00\\) | \\(0.57\\) | \\(0.89\\) | \\(0.00\\) | \\( 1.46 = 0.57 + 0.89 \\)
+  Description  |          0 |          1 |          2 |          3 | width
+ :------------ | ----------:| ----------:| ----------:| ----------:|:------------------------------------
+  Coverage     | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
+  Alpha        | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
+  Luminance    | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
+  Lightness    | \\(0.00\\) | \\(0.57\\) | \\(0.89\\) | \\(0.00\\) | \\( 1.46 = 0.57 + 0.89 \\) (45% thicker)
 
 Don't: anti-alias in the sRGB color space
 -----------------------------------------
@@ -81,98 +82,102 @@ passes into dark brown colors as shown in the image below.
 
 {% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-perceptional-compositing.png" description="left: compositing in the sRGB color space, right: compositing in linear-sRGB color space" %}
 
-Do: anti-alias in tLUV color space
-----------------------------------
+Do: anti-alias in CIE L\*a\*b\* color space
+-------------------------------------------
 So we can't blend in either a linear-RGB space, nor in a uniform-RGB space. What we would like is a color
 space that allows us to blend the perceptional uniform lightness together with linear colors.
 
 The CIE L\*a\*b\* color space has a perceptional uniform lightness in one axis and a separate
 perceptional uniform color plane. The CIE L\*a\*b\* color space may be a valid color space
-to do anti-aliasing in, but it is computational expensive. I could not
-find a standard color space that was cheaper to use with similar properties so I made my own; the **tLUV**
-color space, which is described in the next chapter.
+to do anti-aliasing in, but it is computational expensive.
 
-When we try to use tLUV color space to anti-alias that same one pixel vertical line from the "_Doing the calculation_"
-chapter, we get a visual line width of \\(1.1\\) which is a serious improvement compared to linear-RGB anti-aliasing
-which resulted in a visual line width of \\(1.46\\).
+Do: Convert coverage to alpha with perceptional compensation
+------------------------------------------------------------
+Lets try something cheaper.
 
+We would like to be able to use the following GPU features:
+ - Fixed-function Linear alpha blending
+ - Per color channel alpha blending (can be used for sub-pixel anti-aliasing).
+ - Don't read the destination frame-buffer in the shader.
 
- | Description  |          0 |          1   |          2   |          3 | width
- |:------------ | ----------:| ------------:| ------------:| ----------:|:--------------------------------
- | Alpha        | \\(0.00\\) | \\(0.25\\)   | \\(0.75\\)   | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
- | Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
- | Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\)
+If we want to use the alpha channel, we need to convert the coverage value to the alpha value
+by looking at the perceptional lightness of the foreground and background color.
 
-Below is the result of using tLUV, as you can see the font weight seems to be equal between light and dark modes:
+The following formulas are used to convert a coverage value to an alpha value when both
+the background and foreground colors are known:
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="anti-aliasing in the tLUV color space" %}
-
-As a torture test we also used tLUV on red text on a green background, which shows a good color interpolation
-between red and green without brown tints:
-
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional-color.png" description="anti-aliasing in the tLUV color space: torture test" %}
-
-The tYUV and tLUV color spaces
-------------------------------
-The tYUV color space consists of 3 elements: Y = linear-luminosity, U = blue projection,
-V = red projection. Unlike most YUV format the U and V components are not scaled or offset
-and therefor need to be kept in floating point format. The calculation between tYUV and
-linear-RGB space requires only a few multiplication, add & subtract operations.
-
-As an approximation for the conversion of luminance to lightness I am using a simple
-square curve, which is simpler to calculate than the CIE L\*a\*b\* cubic curve.
-However for anti-aliasing of fonts it seems the approximation is good enough.
-
-linear-RGB to tYUV/tLUV:
+  variable       | description
+ :-------------- |:-----------
+  \\(c\\)        | coverage; The amount a pixel is covered by the glyph.
+  \\(F\\)        | foreground luminance (linear).
+  \\(B\\)        | background luminance (linear).
+  \\(T\\)        | target luminance (linear).
+  \\(\bar{F}\\)  | foreground lightness (perceptional).
+  \\(\bar{B}\\)  | background lightness (perceptional).
+  \\(\bar{T}\\)  | target lightness (perceptional).
+  \\(a\\)        | perceptional compensated alpha value.
 
 $$
 \begin{align*}
-Y &= K_r \cdot R + K_g \cdot G + K_b \cdot B \\
-L &= \sqrt(Y) \\
-U &= B - Y\\
-V &= R - Y
+\bar{F} &= \sqrt(F) \\
+\bar{B} &= \sqrt(B) \\
+\bar{T} &= \text{mix}(\bar{F}, \bar{B}, c) \\
+T &= \bar{T}^2 \\
+a &=
+\begin{cases}
+    \frac{T - B}{F - B} & \text{if } F != B \\
+    c & \text{otherwise}
+\end{cases}
 \end{align*}
 $$
 
-tYUV/tLUV to linear-RGB:
+However we do not know what the background color of the text is, So instead
+we expect that the text will be contrasting with the background.
+
+After filling in \\(F = 0, B = 1\)) and \((F = 1, B = 0\\) in the formulas above and
+simplify it we get two coverage-to-alpha formulas.
+
+Then we linear interpolate `mix()` between the coverage-to-alpha formulas for
+black-on-white and white-on-black, by the perceptional uniform foreground lightness.
+
+  variable       | description
+ :-------------- |:-----------
+  \\(c\\)        | coverage; The amount a pixel is covered by the glyph.
+  \\(\bar{F}\\)  | foreground lightness (perceptional).
+  \\(a_w\\)      | alpha for white text on black background.
+  \\(a_b\\)      | alpha for black text on white background.
+  \\(a\\)        | perceptional compensated alpha value.
 
 $$
 \begin{align*}
-Y &= L^2 \\
-R &= V + Y\\
-G &= Y - V \cdot K_v - U \cdot K_u\\
-B &= U + Y
+a_w &= c^2 \\
+a_b &= 2c - c^2 \\
+a &= \text{mix}(a_b, a_w, \bar{F})
 \end{align*}
 $$
 
-The constants used in the conversion are depended on the color-primaries of the
-RGB color space, they describe the contribution of each color component to the white-point:
+In GLSL this is simply:
 
- | Name      |    sRGB/rec.709 |         rec.601 |
- |:--------- | ---------------:| ---------------:|
- | \\(K_r\\) | \\(0.2126\\)    | \\(0.299\\)     |
- | \\(K_g\\) | \\(0.7152\\)    | \\(0.587\\)     |
- | \\(K_b\\) | \\(0.0722\\)    | \\(0.114\\)     |
- | \\(K_u\\) | \\(K_b / K_g\\) | \\(K_b / K_g\\) |
- | \\(K_c\\) | \\(K_r / K_g\\) | \\(K_r / K_g\\) |
+```
+float coverage_to_alpha(float coverage, float sqrt_foreground)
+{
+    float coverage_sq = coverage * coverage;
+    float coverage_2 = coverage + coverage;
+    return mix(coverage_2 - coverage_sq, coverage_sq, sqrt_foreground);
+}
+```
 
-How to do this on Vulkan
-------------------------
-Vulkan's fixed pipeline alpha compositing does not have a mode for compositing
-in tLUV color space. So compositing needs to be done in the fragment shader itself.
+If we fill in the coverage to alpha formula for this 1 pixel width line again, we see a clear
+improvement for 46% to only 10% thicker perceptional line width.
 
-Vulkan has the possibility to use the output attachment from a previous sub-pass
-as the input attachement for the current shader. An input attachment works a bit
-like a texture map except that you can only read the pixel at the current fragment
-coordinate. Input attachments are actually quite fast especially on tile based GPU
-on mobile devices since the memory for the tile is located on the GPU-asic itself.
+  Description  |          0 |          1   |          2   |          3 | width
+ :------------ | ----------:| ------------:| ------------:| ----------:|:--------------------------------
+  Coverage     | \\(0.00\\) | \\(0.25\\)   | \\(0.75\\)   | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
+  Alpha        | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
+  Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
+  Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\) (10% thicker)
 
-It seems that it is no longer possible to use the input attachment as an output attachment
-at the same time, since the image must be in two different layouts at the same time. So
-you will need to write to a new output attachment.
-
-There must be a full-window post-process sub-pass which will combine the background with the
-output of the text render pass which select pixels based on their non-zero alpha.
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="anti-aliasing using coverage to perceptional compensated alpha" %}
 
 Terms
 -----
