@@ -1,6 +1,6 @@
 ---
 layout: default
-title: The Trouble with Anti-Aliasing
+title: The Trouble with Anti-Aliasing (updated)
 ---
 
 {{page.title}}
@@ -98,7 +98,7 @@ Lets try something cheaper.
 We would like to be able to use the following GPU features:
  - Fixed-function Linear alpha blending
  - Per color channel alpha blending (can be used for sub-pixel anti-aliasing).
- - Don't read the destination framebuffer in the shader.
+ - Don't read the destination frame-buffer in the shader.
 
 If we want to use the alpha channel, we need to convert the coverage value to the alpha value
 by looking at the perceptional lightness of the foreground and background color.
@@ -108,14 +108,14 @@ the background and foreground colors are known:
 
   variable       | description
  :-------------- |:-----------
-  \\(c\\)        | coverage; The amount a pixel is coverred by the glyph.
+  \\(c\\)        | coverage; The amount a pixel is covered by the glyph.
   \\(F\\)        | foreground luminance (linear).
   \\(B\\)        | background luminance (linear).
   \\(T\\)        | target luminance (linear).
   \\(\bar{F}\\)  | foreground lightness (perceptional).
   \\(\bar{B}\\)  | background lightness (perceptional).
   \\(\bar{T}\\)  | target lightness (perceptional).
-  \\(a\\)        | perceptional compensenated alpha value.
+  \\(a\\)        | perceptional compensated alpha value.
 
 $$
 \begin{align*}
@@ -142,11 +142,11 @@ black-on-white and white-on-black, by the perceptional uniform foreground lightn
 
   variable       | description
  :-------------- |:-----------
-  \\(c\\)        | coverage; The amount a pixel is coverred by the glyph.
+  \\(c\\)        | coverage; The amount a pixel is covered by the glyph.
   \\(\bar{F}\\)  | foreground lightness (perceptional).
   \\(a_w\\)      | alpha for white text on black background.
   \\(a_b\\)      | alpha for black text on white background.
-  \\(a\\)        | perceptional compensenated alpha value.
+  \\(a\\)        | perceptional compensated alpha value.
 
 $$
 \begin{align*}
@@ -170,13 +170,12 @@ float coverage_to_alpha(float coverage, float sqrt_foreground)
 If we fill in the coverage to alpha formula for this 1 pixel width line again, we see a clear
 improvement for 46% to only 10% thicker perceptional line width.
 
-
- | Description  |          0 |          1   |          2   |          3 | width
- |:------------ | ----------:| ------------:| ------------:| ----------:|:--------------------------------
- | Coverage     | \\(0.00\\) | \\(0.25\\)   | \\(0.75\\)   | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
- | Alpha        | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
- | Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
- | Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\) (10% thicker)
+  Description  |          0 |          1   |          2   |          3 | width
+ :------------ | ----------:| ------------:| ------------:| ----------:|:--------------------------------
+  Coverage     | \\(0.00\\) | \\(0.25\\)   | \\(0.75\\)   | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
+  Alpha        | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
+  Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
+  Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\) (10% thicker)
 
 {% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="anti-aliasing using coverage to perceptional compensated alpha" %}
 
