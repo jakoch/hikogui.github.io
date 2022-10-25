@@ -12,7 +12,7 @@ When I was working on the font rendering in HikoGUI I found an issue where
 the text looked to have a different weight between the light and dark mode
 of my application.
 
-{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp;sarcasm) anti-aliasing in linear-sRGB color space" %}
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-linear.png" description="'correct'&nbsp; anti-aliasing in linear-sRGB color space" %}
 
 The rendering above was done inside the SDF (signed distance field)
 fragment-shader completely in linear-RGB color space. And as you see
@@ -20,8 +20,8 @@ the weight of the text in light-mode is too thin, and the weight in dark-mode
 is too bold. 
 
 So why is this happening? According to many articles about font rendering this
-is happening because we did the compositing in a gamma color space, we didn't;
-and we should use linear color space, which we did.
+is happening because we did the compositing in a gamma color space. However
+we did actually render is linear color space, so we have done this correct.
 
 Other articles talk about that fonts are designed to be black-on-white and you
 should use stem-darkening. Which is weird because the stem darking is supposed to
@@ -33,8 +33,9 @@ happen when mixing the foreground and background color in a linear-RGB space.
 
 Doing the calculation
 ---------------------
-In this chapter I will show why a \\(1\\) pixel wide line will visual look
-like a \\(1.46\\) pixel wide line after anti-aliasing in a linear-RGB color space.
+In this chapter I will show why a \\(1\\) pixel wide white line and a black background
+will visual look like a \\(1.46\\) pixel wide line after anti-aliasing in
+linear-RGB color space.
 
 For this example we will draw a one pixel wide vertical line with its center
 at \\(x = 1.75\\). The line is white on a black background, which means that
@@ -60,12 +61,7 @@ As you see our intended vertical line is \\(1\\) pixel wide. But after
 we calculated what a human eye really perceives we find that the line is visually
 \\(1.46\\) pixels wide.
 
-  Description  |          0 |          1 |          2 |          3 | width
- :------------ | ----------:| ----------:| ----------:| ----------:|:------------------------------------
-  Coverage     | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
-  Alpha        | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
-  Luminance    | \\(0.00\\) | \\(0.25\\) | \\(0.75\\) | \\(0.00\\) |
-  Lightness    | \\(0.00\\) | \\(0.57\\) | \\(0.89\\) | \\(0.00\\) | \\( 1.46 = 0.57 + 0.89 \\) (45% thicker)
+{% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-pixels.png" description="Different anti-aliasing algorithms with their impact on perceived width." %}
 
 Don't: anti-alias in the sRGB color space
 -----------------------------------------
@@ -167,16 +163,6 @@ float coverage_to_alpha(float coverage, float sqrt_foreground)
 }
 ```
 
-If we fill in the coverage to alpha formula for this 1 pixel width line again, we see a clear
-improvement for 46% to only 10% thicker perceptional line width.
-
-  Description  |          0 |          1   |          2   |          3 | width
- :------------ | ----------:| ------------:| ------------:| ----------:|:--------------------------------
-  Coverage     | \\(0.00\\) | \\(0.25\\)   | \\(0.75\\)   | \\(0.00\\) | \\( 1.00 = 0.25 + 0.75 \\)
-  Alpha        | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
-  Luminance    | \\(0.00\\) | \\(0.0625\\) | \\(0.5625\\) | \\(0.00\\) |
-  Lightness    | \\(0.00\\) | \\(0.30\\)   | \\(0.80\\)   | \\(0.00\\) | \\( 1.1 = 0.3 + 0.8 \\) (10% thicker)
-
 {% include figure.html url="/assets/images/posts/the-trouble-with-anti-aliasing-screenshot-perceptional.png" description="anti-aliasing using coverage to perceptional compensated alpha" %}
 
 Terms
@@ -215,7 +201,7 @@ for taking the square root, see the next section.
 ### Lightness (L)
 Lightness is the perceptual uniform indication of brightness.
 
-In this blog post we use the range of lightness values between \(0.0\\) and \\(1.0\\) to
+In this blog post we use the range of lightness values between \\(0.0\\) and \\(1.0\\) to
 be mapped non-linear to \\(0 cd/m^2\\) to \\(80 cd/m^2\\).  which is the standard range of
 [sRGB](https://en.wikipedia.org/wiki/SRGB) screen-luminance-level.
 
