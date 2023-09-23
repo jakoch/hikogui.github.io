@@ -7,7 +7,7 @@ Originally it was designed as the GUI for a portable audio recording application
 have a lot of widgets (100+), like audio peak-level meters, which would have to animate at the
 screen refresh rate.
 
-I also used to work at a trading firm where I was inspired by trading applications.
+I used to work at a trading firm where I was inspired by trading applications.
 The design of HikoGUI should allow for all the numbers of a spreadsheet like application
 to be updated at screen refresh rate.
 
