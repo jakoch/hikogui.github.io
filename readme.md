@@ -1,8 +1,7 @@
 
 ![HikoGUI: A modern, high-performance, retained-mode, gui library](/assets/images/logos/hikogui-logo-1000x280.png){:width="500px" height="140px"}
 
-I, [Take Vos](https://github.com/takev/), made this GUI library to create good looking
-realtime applications.
+HikoGUI was created to make portable and good looking, realtime applications.
 
 Originally it was designed as the GUI for a portable audio recording application which would
 have a lot of widgets (100+), like audio peak-level meters, which would have to animate at the
@@ -16,11 +15,8 @@ The library is released under the [BSL-1.0 license](https://opensource.org/licen
 which allows the library to be used in both open-source and proprietary applications.
 
 
-Features
---------
-
-### Retained mode C++20/23 API
-
+Retained mode C++20/23 API
+--------------------------
 HikoGUI uses a modern style C++ [retained mode](https://en.wikipedia.org/wiki/Retained_mode)
 API with a clear ownership model. 
 
@@ -60,8 +56,9 @@ For some full examples of applications see:
   - <https://github.com/hikogui/hikogui-hello-world/blob/main/src/main.cpp>
   - <https://github.com/hikogui/hikogui/blob/main/examples/hikogui_demo/src/main_impl.cpp>
 
-### Animation and Performance
 
+Animation and Performance
+-------------------------
 HikoGUI as much as possible is using a single threaded main-loop.
 The main-loop will asynchronously handle the following events:
  - keyboard, mouse and other window events,
@@ -85,8 +82,9 @@ Because we are rendering everything with the GPU we get
 [Wide Color Gamut](https://en.wikipedia.org/wiki/Gamut)
 for free.
 
-### A complete GUI
 
+A complete GUI
+--------------
 We want to create a complete GUI with all the features that are needed
 to write desktop and mobile applications:
 
@@ -102,8 +100,9 @@ to write desktop and mobile applications:
  - high DPI scaling
  - key bindings
 
-### Portability
 
+Portability
+-----------
 Although currently only MS Windows and Vulkan are supported HikoGUI is
 designed to be easily portable to other platforms. Most, if not all,
 of the platform depended code has been separated out and can live
@@ -125,9 +124,9 @@ Blog posts
  - [{{ post.title }} ({{post.date | date_to_string }})]({{ post.url }})
 {%- endfor %}
 
+
 Platinum Sponsors
 -----------------
-
 The following people and companies are platinum sponsors:
 
 _There are currently no platinum sponsors._
