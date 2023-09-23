@@ -33,12 +33,14 @@ hi::task<> main_window()
 {
     // The widget that is created here will later be owned by the window,
     // by moving this unique pointer into the window.
-    auto widget = std::make_unique<hi::window_widget>(hi::label{icon, hi::txt("Hello World")});
+    auto widget = std::make_unique<hi::window_widget>(hi::txt("Hello World"));
 
     // We borrow a reference to the button to await on the button press later.
-    auto &button = widget->content().make_widget<hi::momentary_button_widget>("A1", hi::txt("Hello world"));
+    auto &button = widget->content().make_widget<hi::momentary_button_widget>(
+        "A1", hi::txt("Hello world"));
 
-    // window is owned by this task, when the task exits the window will go out-of-scope and get destructed.
+    // window is owned by this task, when the task exits the window will go
+    // out-of-scope and get destructed.
     auto window = hi::gui_window(std::move(widget));
 
     while (true) {
