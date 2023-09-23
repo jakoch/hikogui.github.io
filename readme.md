@@ -19,66 +19,102 @@ which allows the library to be used in both open-source and proprietary applicat
 Features
 --------
 
-### Retained-mode C++20 API
+### Retained mode C++20/23 API
 
-A `hi::gui_window` is a RAII object that creates a window, and when it gets destroyed
-it will also remove the window.
+HikoGUI uses a modern style C++ [retained mode](https://en.wikipedia.org/wiki/Retained_mode)
+API with a clear ownership model. 
 
-The `hi::gui_window` in turn will own the `hi::widget` tree using `std::unique_ptr`.
+In the following example we see a co-routine, unique-pointers and
+[RAII](https://en.wikipedia.org/wiki/Resource_acquisition_is_initialization)
+being used to clearly communicate the ownership model between GUI elements.
 
-C++20 co-routine tasks are perfect for creating the widgets and moving them into
-the widget, then awaiting events from widgets and reacting to it. In the end
-when the co-routine returns, the window owned by the co-routine will be
-automatically destroyed.
+```cpp
+hi::task<> main_window()
+{
+    // The widget that is created here will later be owned by the window,
+    // by moving this unique pointer into the window.
+    auto widget = std::make_unique<hi::window_widget>(hi::label{icon, hi::txt("Hello World")});
 
+    // We borrow a reference to the button to await on the button press later.
+    auto &button = widget->content().make_widget<hi::momentary_button_widget>("A1", hi::txt("Hello world"));
+
+    // window is owned by this task, when the task exits the window will go out-of-scope and get destructed.
+    auto window = hi::gui_window(std::move(widget));
+
+    while (true) {
+        auto result = co_await hi::when_any(button.pressed, window.closing);
+        switch (result.index()) {
+        case 0: // button.pressed
+            std::print("Hello World");
+            break;        
+        case 1: // window.closing
+            co_return;
+        }
+    }
+}
+```
+
+For some full examples of applications see:
+  - <https://github.com/hikogui/hikogui-hello-world/blob/main/src/main.cpp>
+  - <https://github.com/hikogui/hikogui/blob/main/examples/hikogui_demo/src/main_impl.cpp>
 
 ### Animation and Performance
 
+HikoGUI as much as possible is using a single threaded main-loop.
+The main-loop will asynchronously handle the following events:
+ - keyboard, mouse and other window events,
+ - vertical sync,
+ - timers,
+ - posted functions,
+ - audio events (excluding audio I/O), and
+ - networking.
 
+The main-loop is inspired by game engines; on each vertical sync all the widgets
+draw themselves by adding vertices of shapes and glyphs to draw into to a buffer;
+afterwards a draw call is executed on the GPU, drawing the whole window at once;
+followed by a [page-flip](https://en.wikipedia.org/wiki/Multiple_buffering).
 
+Some optimizations are added on top of this, such as: only the parts of a window
+that needs to change will need to be redrawn, using
+[hardware scissors](https://www.khronos.org/opengl/wiki/Scissor_Test).
+
+Because we are rendering everything with the GPU we get
+[High Dynamic Range](https://en.wikipedia.org/wiki/High_dynamic_range) and
+[Wide Color Gamut](https://en.wikipedia.org/wiki/Gamut)
+for free.
 
 ### A complete GUI
 
+We want to create a complete GUI with all the features that are needed
+to write desktop and mobile applications:
 
- - High level API for making desktop applications.
- - Modern C++20 library.
- - Retained-mode GUI.
- - GUI and event-loop co-routine support.
- - Widgets may be animated at the screen's refresh rate.
- - Multi-monitor and DPI scaling.
- - Themes; including light/dark support.
- - Editable key-bindings.
- - Most or all drawing is GPU accelerated with Vulkan.
- - Text is drawn using kerning, perceptional correct subpixel anti-aliasing.
- - High dynamic range and high gamut color handling.
- - Many support systems:
-   + logging, counting, tracing,
-   + constexpr Unicode algorithms, including bidirectional text,
-   + text localization,
+ - localization
+ - accessability (not yet)
+ - high quality text rendering
+   + perceptional correct subpixel anti-aliasing
+   + kerning
+   + ligatures (not yet)
+   + bidirectional text handling
+ - theming
+ - multi-monitor support
+ - high DPI scaling
+ - key bindings
 
-Examples
---------
-In this example audio devices are dynamically tracked in the user-interface, even when the changes are happening during
-device selection:
+### Portability
 
-{% include figure.html url="/assets/images/screenshots/audio_device_change.gif" description="Audio Selection tracking devices in real time" %}
+Although currently only MS Windows and Vulkan are supported HikoGUI is
+designed to be easily portable to other platforms. Most, if not all,
+of the platform depended code has been separated out and can live
+along side other implementations.
 
-Localization changes are also handled dynamically, in this example you can see the language of the application change
-when the language priority on the operating system has changed:
+Not only should it be easy to port to other compilers and operating
+systems we have also abstracted the graphics API and it should
+be possible to replace with OpenGL, DirectX or WebGL.
 
-{% include figure.html url="/assets/images/screenshots/language_change.gif" description="Multiple language support" %}
-
-HikoGUI's theme support includes dark/light sub-themes. Here you can see the theme change when the operating system
-is switched between light and dark. The perceptional correct anti-aliasing will make sure that the weight of the
-text remains the same between light and dark themes:
-
-{% include figure.html url="/assets/images/screenshots/demo_dark_and_light.png" description="Themes with dark and light mode" %}
-
-To improve legibility of text HikoGUI uses subpixel anti-aliasing. The glyph shader calculates the coverage of each sub-pixel
-separately and the calculates a perceptional correct alpha value for each sub-pixel; this means no post processing filter is
-necessary to reduce chromatic aberrations:
-
-{% include figure.html url="/assets/images/screenshots/subpixel_glyphs.png" description="Subpixel anti-aliasing" %}
+With C++20 modules porting becomes extra simple because you can have
+different implementations in different files with the same module
+name; CMake then selects the files to include in the
+build.
 
 
 Blog posts
