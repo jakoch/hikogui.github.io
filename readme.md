@@ -117,6 +117,30 @@ different implementations in different files with the same module
 name; CMake then selects the files to include in the
 build.
 
+Screenshots and movies
+----------------------
+In this example audio devices are dynamically tracked in the user-interface, even when the changes are happening during
+device selection:
+
+{% include figure.html url="/assets/images/screenshots/audio_device_change.gif" description="Audio Selection tracking devices in real time" %}
+
+Localization changes are also handled dynamically, in this example you can see the language of the application change
+when the language priority on the operating system has changed:
+
+{% include figure.html url="/assets/images/screenshots/language_change.gif" description="Multiple language support" %}
+
+HikoGUI's theme support includes dark/light sub-themes. Here you can see the theme change when the operating system
+is switched between light and dark. The perceptional correct anti-aliasing will make sure that the weight of the
+text remains the same between light and dark themes:
+
+{% include figure.html url="/assets/images/screenshots/demo_dark_and_light.png" description="Themes with dark and light mode" %}
+
+To improve legibility of text HikoGUI uses subpixel anti-aliasing. The glyph shader calculates the coverage of each sub-pixel
+separately and the calculates a perceptional correct alpha value for each sub-pixel; this means no post processing filter is
+necessary to reduce chromatic aberrations:
+
+{% include figure.html url="/assets/images/screenshots/subpixel_glyphs.png" description="Subpixel anti-aliasing" %}
+
 
 Blog posts
 ----------
