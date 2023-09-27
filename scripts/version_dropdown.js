@@ -1,100 +1,144 @@
 /**
- * Copyright 2021 Jens A. Koch.
+ * Copyright 2021-2023 Jens A. Koch.
  * SPDX-License-Identifier: BSL-1.0
  * This file is part of hikogui.
  */
-(function() {
+(function () {
   'use strict';
 
   var latest_version = @LATEST_VERSION@;
 
   var versions = @VERSIONS@;
 
-  var url_web = /(hikogui\.org\/docs\/hikogui\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
+  function get_dropdown_node() {
+    return $("#project_version_dropdown")[0];
+  }
 
-  var url_dev = /(jakoch\.github\.io\/hikogui\.github\.io\/docs\/hikogui\/)(main|latest|(\d+\.\d+\.\d+)?)\//;
+  // General function to create an alert message
+  function get_div_alert_message(message) {
+    var alert_div = document.createElement("div");
+    alert_div.innerHTML = message;
+    alert_div.style.cssText = "color: #856404; background-color: #fff3cd; border-color: #ffeeba; margin: 5px 10px; padding: 5px; border-radius: 1ex; display: inline;";
+    return alert_div;
+  }
 
-  function build_dropdown(current_version) {
-    // display a warning message, when user switches to "main" development branch
+  // Function to display a warning message, when user switches to "main" development branch
+  function display_main_branch_warning(current_version) {
     if (current_version == 'main') {
-      var alert_div = document.createElement("div");
-      alert_div.innerHTML = '⚠️ This documents the <a style="font-family: monospace;" href="https://github.com/hikogui/hikogui/tree/main">main</a> development branch of HikoGUI. It might differ from release versions.';
-      alert_div.style.cssText = "color: #856404; background-color: #fff3cd; border-color: #ffeeba; margin: 5px 10px; padding: 5px; border-radius: 1ex; display: inline;"
-      var dropdownNode = $("#project_version_dropdown")[0];
-      $(alert_div).insertAfter(dropdownNode);
+      var message = '⚠️ This documents the <a href="https://github.com/hikogui/hikogui/tree/main">main</a> development branch of HikoGUI. It might differ from release versions.';
+      var alert_div = get_div_alert_message(message);
+      $(alert_div).insertAfter(get_dropdown_node());
     }
+  }
 
-    // display a warning message, when user switches to an "old version"
-    if (current_version.localeCompare(latest_version, undefined, { numeric: true, sensitivity: 'base' }) == -1) {
-      var oldver_alert_div = document.createElement("div");
-      oldver_alert_div.innerHTML = '⚠️ This documents an old version of HikoGUI. <a href="https://hikogui.org/docs/hikogui/'+latest_version+'">Switch to the latest release.</a> Or, select a version from the drop-down menu.';
-      oldver_alert_div.style.cssText = "color: #856404; background-color: #fff3cd; border-color: #ffeeba; margin: 5px 10px; padding: 5px; border-radius: 1ex; display: inline;"
-      var dropdownNode = $("#project_version_dropdown")[0];
-      $(oldver_alert_div).insertAfter(dropdownNode);
+  // Function to display a warning message, when user switches to an "old version"
+  function display_old_version_warning(current_version, latest_version) {
+    if (is_valid_release_version(current_version) && current_version !== latest_version) {
+      var message = '⚠️ This documents an old version of HikoGUI. Switch to the <a href="https://hikogui.org/docs/hikogui/' + latest_version + '">latest</a> release. Or, select a version from the drop-down menu.';
+      var alert_div = get_div_alert_message(message);
+      $(alert_div).insertAfter(get_dropdown_node());
     }
+  }
 
-    var dropdown = ['<select>'];
-    $.each(versions, function(id) {
-      var version = versions[id];
-      dropdown.push('<option value="' + version + '"');
-      if (version.localeCompare(current_version, undefined, { numeric: true, sensitivity: 'base' }) == 0) {
-        dropdown.push(' selected="selected">');
-      } else {
-        dropdown.push('>');
-      }
-      if (version.localeCompare(latest_version, undefined, { numeric: true, sensitivity: 'base' }) == 0) {
-        dropdown.push(version + ' (latest)');
-      } else {
-        dropdown.push(version);
-      }
-      dropdown.push('</option>');
-    });
-
-    return dropdown.join('');
+  function is_valid_release_version(version) {
+    var versionPattern = /^\d+\.\d+\.\d+$/;
+    return version.match(versionPattern);
   }
 
   function update_url(url, new_version) {
-    if(url.includes("hikogui.org")) {
-      return url.replace(url_web, 'hikogui.org/docs/hikogui/' + new_version + '/');
-    } else {
-      return url.replace(url_dev, 'jakoch.github.io/hikogui.github.io/docs/hikogui/' + new_version + '/');
-    }
+    return url.includes('/docs/hikogui/') ? url.replace(/\/docs\/hikogui\/[^/]+/, '/docs/hikogui/' + new_version) : url;
   }
 
   function on_change_switch_url() {
-    var selected = $(this).children('option:selected').attr('value');
-    var url = window.location.href;
-    var new_url = update_url(url, selected);
-    if (new_url != url) {
+    var selected = $('#version_dropdown select').val();
+    var current_url = window.location.href;
+    var new_url = update_url(current_url, selected);
+    if (new_url != current_url) {
       window.location.href = new_url;
     }
   }
 
-  $(document).ready(function() {
-      var targetNode=$("#projectname")[0];
-      targetNode.style.display = "inline";
+  function build_dropdown(current_version) {
+    var dropdown = ['<select>'];
 
-      var divNode = document.createElement("div");
-      divNode.id = "project_version_dropdown";
-      divNode.style.cssText = "display: inline; margin-left: 15px;";
-      divNode.textContent = "Select Version: ";
+    // add option for the "main" branch as "latest development" branch on top
+    dropdown.push('<option value="main">main (latest dev)</option>');
 
-      var spanNode = document.createElement("span");
-      spanNode.id = "version_dropdown";
-      spanNode.textContent = "major.minor.patch";
-
-      divNode.appendChild(spanNode);
-
-      $(divNode).insertAfter(targetNode);
-
-      var match = url_web.exec(window.location.href);
-      if (!match) {
-        match = url_dev.exec(window.location.href);
+    // Group: Released Versions
+    dropdown.push('<optgroup label="Releases">');
+    versions.filter(version => is_valid_release_version(version)).forEach(function (version) {
+      dropdown.push('<option value="' + version + '"')
+      if (version === current_version) {
+        dropdown.push(' selected="selected">');
+      } else {
+        dropdown.push('>');
       }
+      dropdown.push(version)
+      // mark latest version
+      if (version === latest_version) {
+        dropdown.push(' (latest)');
+      }
+      dropdown.push('</option>');
+    });
+    dropdown.push('</optgroup>');
 
-      var version = match[2];
-      var select = build_dropdown(version);
-      spanNode.innerHTML=select;
-      $('#version_dropdown select').bind('change', on_change_switch_url);
+
+    // Group: Feature Branches
+    dropdown.push('<optgroup label="Feature Branches">');
+    versions.filter(version => !is_valid_release_version(version) && version !== "main").forEach(function (version) {
+      dropdown.push('<option value="' + version + '"')
+      if (version === current_version) {
+        dropdown.push(' selected="selected">');
+      } else {
+        dropdown.push('>');
+      }
+      dropdown.push(version);
+      // mark latest version
+      //if(version === 'main') { dropdown.push(' (latest dev)'); }
+      dropdown.push('</option>');
+    });
+    dropdown.push('</optgroup>');
+
+    dropdown.push('</select>');
+
+    return dropdown.join('');
+  }
+
+  function get_current_version_from_url() {
+    var url = window.location.href;
+    // sort versions in descending order to match the most specific version first
+    versions.sort((a, b) => {
+        return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }) * -1;
+    });
+    for (var version of versions) {
+        if (url.includes('/' + version + '/')) {
+            return version;
+        }
+    }
+    return "main"; // default to "main", if no version is found
+  }
+
+  $(document).ready(function () {
+    var targetNode = $("#projectname")[0];
+    targetNode.style.display = "inline";
+
+    var divNode = document.createElement("div");
+    divNode.id = "project_version_dropdown";
+    divNode.style.cssText = "display: inline; margin-left: 60px;";
+    divNode.textContent = "Select Version: ";
+
+    var spanNode = document.createElement("span");
+    spanNode.id = "version_dropdown";
+
+    var current_version = get_current_version_from_url();
+    spanNode.innerHTML = build_dropdown(current_version);
+
+    divNode.appendChild(spanNode);
+    $(divNode).insertAfter(targetNode);
+
+    $('#version_dropdown select').bind('change', on_change_switch_url);
+
+    display_main_branch_warning(current_version);
+    display_old_version_warning(current_version, latest_version);
   });
 })();
