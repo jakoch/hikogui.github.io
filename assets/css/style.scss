@@ -1,0 +1,203 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-Regular.eot");
+    src: url("../fonts/Lato-Regular.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-Regular.woff") format("woff"),
+         url("../fonts/Lato-Regular.ttf") format("truetype"),
+         url("../fonts/Lato-Regular.svg#OpenSansLight") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-Light.eot");
+    src: url("../fonts/Lato-Light.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-Light.woff") format("woff"),
+         url("../fonts/Lato-Light.ttf") format("truetype"),
+         url("../fonts/Lato-Light.svg#OpenSansLight") format("svg");
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Lato';
+    src: url("../fonts/Lato-LightItalic.eot");
+    src: url("../fonts/Lato-LightItalic.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Lato-LightItalic.woff") format("woff"),
+         url("../fonts/Lato-LightItalic.ttf") format("truetype"),
+         url("../fonts/Lato-LightItalic.svg#OpenSansLight") format("svg");
+    font-weight: 300;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'GentiumBasic';
+    src: url("../fonts/GentiumBasic-Italic.eot");
+    src: url("../fonts/GentiumBasic-Italic.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/GentiumBasic-Italic.woff") format("woff"),
+         url("../fonts/GentiumBasic-Italic.ttf") format("truetype"),
+         url("../fonts/GentiumBasic-Italic.svg#OpenSansLight") format("svg");
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: url("../fonts/Montserrat-Bold.eot");
+    src: url("../fonts/Montserrat-Bold.eot?#iefix") format("embedded-opentype"),
+         url("../fonts/Montserrat-Bold.woff") format("woff"),
+         url("../fonts/Montserrat-Bold.ttf") format("truetype"),
+         url("../fonts/Montserrat-Bold.svg#OpenSansLight") format("svg");
+    font-weight: bold;
+    font-style: normal;
+}
+
+.wrapper {
+    max-width: 750px;
+}
+
+section {
+    max-width: 750px;
+}
+
+#header nav {
+    max-width: 750px;
+}
+
+.right {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+figure {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 1EM;
+    text-align: center;
+}
+
+figure figcaption {
+    text-align: right;
+    font-family: 'GentiumBasic';
+    font-style: italic;
+    font-weight: normal;
+    font-size: 13pt;
+    color: #dddd66;
+}
+
+img.avatar {
+    border-radius: 50%;
+    margin: 10px;
+}
+
+.float-left {
+    float: left;
+}
+
+body {
+    color: #dddddd;
+    font: initial;
+    font-family: 'Lato';
+    font-size: 12pt;
+    font-weight: 300;
+    line-height: normal;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat' !important;
+    font-weight: bold !important;
+    color: #ffffff;
+}
+
+em {
+    font-family: 'GentiumBasic';
+    font-weight: normal;
+    font-size: 13pt;
+    color: #c0c0c0;
+}
+
+a {
+    color: #ca5201;
+    font-weight: 300;
+    text-decoration: underline dashed;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 1px;
+}
+
+menu, ol, ul {
+    padding: 0 0 0 25px;
+}
+
+a:hover {
+    color: #fffc79;
+}
+
+#header nav ul li.fork {
+    margin-right: 5px;
+}
+
+#header nav ul li.title {
+    margin-left: 5px;
+    margin-right: 0px;
+}
+
+#header nav ul li a {
+    color: #fffc79;
+    height: 16px;
+    padding: 6px 12px;
+    background: #ca5201;
+    border-color: #882200;
+    text-decoration: none;
+}
+
+#header nav ul li a:hover {
+    color: #dddd66;
+    background: #882200;
+    border-color: #661100;
+}
+
+#header nav ul li a svg {
+    vertical-align: middle;
+}
+
+#header nav ul li.sponsor a {
+    color: #000000;
+    background-color: #cccccc;
+    border-color: #888888;
+    text-shadow: none;
+}
+
+#header nav ul li.sponsor a:hover {
+    color: #000000;
+    background-color: #aaaaaa;
+    border-color: #666666;
+    text-shadow: none;
+}
+
+#header nav ul li.sponsor a svg {
+    color: rgb(234, 74, 170);
+    fill: rgb(234, 74, 170);
+}
+
+mjx-container {
+    color: #fffc79;
+}
+
+section > mjx-container {
+    text-align: left !important;
+    padding-left: 20px;
+}
+
+code {
+    color: #fffc79;
+    padding: 0;
+    margin: 0;
+}
+

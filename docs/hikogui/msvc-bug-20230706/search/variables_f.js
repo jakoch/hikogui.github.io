@@ -1,0 +1,22 @@
+var searchData=
+[
+  ['p0_0',['p0',['../a05323.html#abc423834b75d961a5aeefd0ecc3315f7',1,'v1::quad::p0'],['../a04499.html#a132f5aca3db8c618bd389222e2d2d8cb',1,'hi::v1::quad_color::p0']]],
+  ['p1_1',['p1',['../a05563.html#a474b8f98c3f44607fdb49a70a47b29b9',1,'v1::bezier_curve::P1'],['../a04499.html#a90ac71534106de7d6b3f3447101e1e9d',1,'hi::v1::quad_color::p1'],['../a05323.html#a4c0998c1ae69aa1126a682839f3b4189',1,'v1::quad::p1']]],
+  ['p2_2',['p2',['../a05563.html#a3b64b6773f294015a5d31946e6e7ed0a',1,'v1::bezier_curve::P2'],['../a04499.html#a1e07aa23a26e4173902915efd0f81916',1,'hi::v1::quad_color::p2'],['../a05323.html#ad48234fca7885c425b9dd894f9e2ad7b',1,'v1::quad::p2']]],
+  ['p3_3',['p3',['../a04499.html#a614da6fb4d294fd76d96b244b0d338f9',1,'hi::v1::quad_color::p3'],['../a05323.html#a0f698a24f82d3dc696bd7bbf97b265f2',1,'v1::quad::p3']]],
+  ['padding_5fafter_4',['padding_after',['../a05911.html#a4d888e2f62f350147ca5abbbb58afd28',1,'hi::v1::detail::grid_layout_axis_constraints::constraint_type']]],
+  ['padding_5fbefore_5',['padding_before',['../a05911.html#a4707856a81ad446602f5c304efea8e57',1,'hi::v1::detail::grid_layout_axis_constraints::constraint_type']]],
+  ['paragraph_5fdirection_6',['paragraph_direction',['../a06555.html#ad951d8880d11414cf026794831914193',1,'v1::text_shaper_line']]],
+  ['paragraph_5fseparator_5fcharacter_7',['paragraph_separator_character',['../a06683.html#ae7f63a61898808765a646472d2c75e8b',1,'v1::unicode_normalize_config']]],
+  ['paragraph_5fseparators_8',['paragraph_separators',['../a06683.html#ab3bc6b07b67f950ebc44e2dbed459753',1,'v1::unicode_normalize_config']]],
+  ['paragraph_5fspacing_9',['paragraph_spacing',['../a04883.html#abe298f226f917fb18964d50985011332',1,'v1::font_metrics']]],
+  ['parent_10',['parent',['../a05687.html#a5f06615ee7f1761008613a488a234d74',1,'hi::v1::widget_intf']]],
+  ['patch_11',['patch',['../a06367.html#a36ef9460a18ef01478544039c71ddbbc',1,'v1::semantic_version']]],
+  ['pn_12',['PN',['../a05567.html#afbfe0b8eb7895675f9e7315480bf0d91',1,'v1::bezier_curve::sdf_distance_result']]],
+  ['points_13',['points',['../a05579.html#a89c794b5ebbca00dc25d5d2c6979a4b3',1,'v1::graphic_path']]],
+  ['points_5fper_5finch_14',['points_per_inch',['../a02474.html#a8298651e4a434c33284b238acd63dd20',1,'v1']]],
+  ['points_5fper_5finch_5fv_15',['points_per_inch_v',['../a02474.html#a5b9d94b54591d7e406f0ab65991dcf99',1,'v1']]],
+  ['position_16',['position',['../a04899.html#a99679f7a922c16d088de3c8705a46a41',1,'v1::glyph_atlas_info::position'],['../a05487.html#a2b10ae1e0c24816fdd1eb035c14e38eb',1,'v1::vertex::position'],['../a05487.html#a9b284caf0ef7f070468847fac2060b1e',1,'v1::vertex::position'],['../a05603.html#a07b35cc4862792507a4d302a6e60e905',1,'hi::v1::mouse_event_data::position'],['../a05911.html#ae95217a63a43bb7aa519143ccec4297a',1,'hi::v1::detail::grid_layout_axis_constraints::constraint_type::position'],['../a06551.html#a9681f8a1c372650da305b99613ed9b7d',1,'v1::text_shaper_char::position']]],
+  ['post_5fprocess_5fcontext_17',['post_process_context',['../a06467.html#a72e92be36a5abd6c579a7f8b813e14f0',1,'v1::skeleton_parse_context']]],
+  ['preferred_18',['preferred',['../a05911.html#ada2137833e7b7c87bcffe428f37d3bb1',1,'hi::v1::detail::grid_layout_axis_constraints::constraint_type']]]
+];

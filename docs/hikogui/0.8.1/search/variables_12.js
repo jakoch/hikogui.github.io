@@ -1,0 +1,24 @@
+var searchData=
+[
+  ['sample_5fcount_0',['sample_count',['../a04045.html#a0c4a50b65db4190a0f5ee4751dd31829',1,'hi::v1::audio_block']]],
+  ['sample_5frate_1',['sample_rate',['../a04045.html#a371f62132bd3b6cdffda248cb435454c',1,'hi::v1::audio_block']]],
+  ['samples_2',['samples',['../a04045.html#a94a0ef1f087f9fe531b83845a260adc1',1,'hi::v1::audio_block']]],
+  ['saturation_3',['saturation',['../a05257.html#a5e8fe1263de7837613a7516425670bde',1,'hi::v1::draw_context']]],
+  ['scale_4',['scale',['../a05481.html#a100e1ae02ca5f829456e4104251b570b',1,'v1::theme::scale'],['../a06325.html#adf0737ccc1c3ec1ce06b859d959f4dd5',1,'v1::text_shaper_char::scale']]],
+  ['scissor_5frectangle_5',['scissor_rectangle',['../a05257.html#ab60928d47e346b083bf82b72345fe88e',1,'hi::v1::draw_context']]],
+  ['script_6',['script',['../a06325.html#aa0724434e50fde35ccc5337a7f0bf89a',1,'v1::text_shaper_char']]],
+  ['selected_5ftheme_7',['selected_theme',['../a05485.html#a681c161261bd70f8549d0c93157fecd0',1,'v1::theme_book']]],
+  ['semantic_5flayer_8',['semantic_layer',['../a07341.html#a3a81792b9f8f28fbf6c33e596bd1b70f',1,'hi::v1::widget']]],
+  ['shape_9',['shape',['../a05493.html#acf3dfb08de315f73388d2d3a73c14060',1,'hi::v1::widget_layout']]],
+  ['size_10',['size',['../a04805.html#ad3073827bdd5130b4088e4a3b9e7a5cd',1,'v1::glyph_atlas_info']]],
+  ['sq_5fdistance_11',['sq_distance',['../a05409.html#afe399f4f92fdcd764014f4997d18201e',1,'hi::v1::bezier_curve::sdf_distance_result']]],
+  ['srgb_5fto_5fxyz_12',['srgb_to_xyz',['../a02229.html#gae067a4918acc56155ba9cb18d39820a1',1,'hi::sRGB_to_XYZ'],['../a02229.html#gae067a4918acc56155ba9cb18d39820a1',1,'hi::v1::sRGB_to_XYZ']]],
+  ['state_13',['state',['../a04045.html#a78c562ec42990fc97d472aae6aecacb4',1,'hi::v1::audio_block']]],
+  ['store_5fsize_14',['store_size',['../a04533.html#acf8ac3aa825b44b6243230680ca4aa5b',1,'v1::packed_int_array']]],
+  ['style_15',['style',['../a06325.html#ad64dbcb08b2cfa6ff219dcaa03870623',1,'v1::text_shaper_char']]],
+  ['sub_5ffamily_5fname_16',['sub_family_name',['../a04777.html#a8d72e747539116e9935ce8642c4be425',1,'v1::font']]],
+  ['sub_5fpixel_5fsize_17',['sub_pixel_size',['../a05493.html#a91adca39672c042a08a06a4cbac5942c',1,'hi::v1::widget_layout']]],
+  ['subpixel_5forientation_18',['subpixel_orientation',['../a05257.html#a2aa102d5520d6b03dfc1ba3e9d8f2791',1,'hi::v1::draw_context']]],
+  ['subsystem_5fdeinit_5flist_19',['subsystem_deinit_list',['../a01184.html#ad923bc8e05bf65af4d45a87fc6a8dd59',1,'hi::v1::detail']]],
+  ['subsystem_5fmutex_20',['subsystem_mutex',['../a01184.html#a70084cc7acbade8443c4e51faa8706c7',1,'hi::v1::detail']]]
+];

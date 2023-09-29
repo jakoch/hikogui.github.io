@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['handle_5fevent_0',['handle_event',['../a07316.html#aac80f920eb877dc6f5db7db6ac9fa5e1',1,'hi::v1::widget::handle_event()'],['../a07208.html#ae7c8aa730fe9d4e3693d6a8dbcb6a077',1,'hi::v1::scroll_bar_widget::handle_event()']]],
+  ['handle_5fevent_5frecursive_1',['handle_event_recursive',['../a07316.html#a5d4d85700196bd3409c99e38fc599484',1,'hi::v1::widget']]],
+  ['handleconnect_2',['handleConnect',['../a05788.html#ac2f6593b16c5d74909c6f8f324ee95de',1,'v1::Socketstream']]],
+  ['handlereadytoreadevent_3',['handleReadyToReadEvent',['../a05788.html#a7f3be12bf5ef7072bf6002483ab55f05',1,'v1::Socketstream']]],
+  ['handlereadytowriteevent_4',['handleReadyToWriteEvent',['../a05788.html#ab92ed88ee17d0ea4729a1a6b3ea34e27',1,'v1::Socketstream']]],
+  ['hardware_5fconcurrency_5',['hardware_concurrency',['http://en.cppreference.com/w/cpp/thread/thread/hardware_concurrency.html',1,'std::thread']]],
+  ['has_5ffacet_6',['has_facet',['http://en.cppreference.com/w/cpp/locale/has_facet.html',1,'std']]],
+  ['has_5fnum_5fglyphs_7',['has_num_glyphs',['../a06428.html#a6f76a222b2a3b6a5b61d1ae1b0892ac6',1,'v1::glyph_ids']]],
+  ['hash_8',['hash',['http://en.cppreference.com/w/cpp/locale/collate/hash.html',1,'std::collate_byname::hash()'],['http://en.cppreference.com/w/cpp/utility/hash/hash.html',1,'std::hash::hash()'],['http://en.cppreference.com/w/cpp/locale/collate/hash.html',1,'std::collate::hash()'],['../a05588.html#a808baf585432814f3c53a79ad78fe7bb',1,'v1::iso_639::hash()'],['../a06428.html#a504bbd44b94e93f5bd3cfe839133fc66',1,'v1::glyph_ids::hash()']]],
+  ['hash_5fcode_9',['hash_code',['http://en.cppreference.com/w/cpp/types/type_info/hash_code.html',1,'std::type_info::hash_code()'],['http://en.cppreference.com/w/cpp/types/type_index/hash_code.html',1,'std::type_index::hash_code()']]],
+  ['hash_5ffunction_10',['hash_function',['http://en.cppreference.com/w/cpp/container/unordered_map/hash_function.html',1,'std::unordered_map::hash_function()'],['http://en.cppreference.com/w/cpp/container/unordered_multimap/hash_function.html',1,'std::unordered_multimap::hash_function()'],['http://en.cppreference.com/w/cpp/container/unordered_multiset/hash_function.html',1,'std::unordered_multiset::hash_function()'],['http://en.cppreference.com/w/cpp/container/unordered_set/hash_function.html',1,'std::unordered_set::hash_function()']]],
+  ['haslayers_11',['hasLayers',['../a05424.html#a95aac5be954379ef491dd8739a35bbff',1,'v1::graphic_path']]],
+  ['height_12',['height',['../a05112.html#aedb1f9555adbaec4a3ae65390a16ec8b',1,'hi::v1::geo::extent::height()'],['../a05180.html#aa5652421dd2bba45a1b9f57025f14ec8',1,'v1::rectangle::height()'],['../a05112.html#a29880b9e550a8461e5594858825d8941',1,'hi::v1::geo::extent::height()']]],
+  ['hex_13',['hex',['http://en.cppreference.com/w/cpp/io/manip/hex.html',1,'std']]],
+  ['hexfloat_14',['hexfloat',['http://en.cppreference.com/w/cpp/io/manip/fixed.html',1,'std']]],
+  ['hi_5fmain_15',['hi_main',['../a02009.html#a9f2f94c8e6e41b902f1e944ce3a62508',1,'crt.hpp']]],
+  ['high_5fbit_5fcast_16',['high_bit_cast',['../a02399.html#a4101146b10b63aa2ecfeb87ce68f627c',1,'v1']]],
+  ['hitbox_5ftest_17',['hitbox_test',['../a07208.html#a9c2ebc271091bd9b42508042b6018b3f',1,'hi::v1::scroll_bar_widget::hitbox_test()'],['../a07228.html#a31e1123ab8fc677be7e9856c3dd1828c',1,'hi::v1::spacer_widget::hitbox_test()'],['../a07316.html#af7433529eb5ea1efb75ed7c5b5aa5817',1,'hi::v1::widget::hitbox_test(point2i position) const noexcept']]],
+  ['hitbox_5ftest_5ffrom_5fparent_18',['hitbox_test_from_parent',['../a07316.html#af81a8864d6a10e778dc83af611ebafe2',1,'hi::v1::widget::hitbox_test_from_parent(point2i position) const noexcept'],['../a07316.html#a8a6a72083f17d09ba99ba1bfbd6e8317',1,'hi::v1::widget::hitbox_test_from_parent(point2i position, hitbox sibling_hitbox) const noexcept']]],
+  ['holds_5finvariant_19',['holds_invariant',['../a05156.html#ace8c50b36d26e3922cb211e86bd8b501',1,'v1::geo::point::holds_invariant()'],['../a07096.html#a0e5c5493af96b5abc12d7a2fb70d7cf4',1,'v1::unicode_mask::holds_invariant()'],['../a05240.html#a63d10abedcefb516c0f640b53a55fc15',1,'v1::geo::vector::holds_invariant()'],['../a05112.html#a35eb9af6e7043262810e013305b791b2',1,'hi::v1::geo::extent::holds_invariant()'],['../a05084.html#a7e51b5f7ce204078e4df5dcc100b4804',1,'hi::v1::geo::axis_aligned_rectangle::holds_invariant()'],['../a04236.html#a3a410fea8c6b394ba85aafbea4903ab5',1,'v1::audio_sample_format::holds_invariant()']]],
+  ['hours_20',['hours',['http://en.cppreference.com/w/cpp/chrono/duration/duration.html',1,'std::chrono::hours']]],
+  ['hypot_21',['hypot',['http://en.cppreference.com/w/cpp/numeric/math/hypot.html',1,'std']]]
+];

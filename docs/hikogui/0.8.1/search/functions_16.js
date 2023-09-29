@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['valid_0',['valid',['http://en.cppreference.com/w/cpp/thread/future/valid.html',1,'std::future::valid()'],['http://en.cppreference.com/w/cpp/thread/shared_future/valid.html',1,'std::shared_future::valid()'],['http://en.cppreference.com/w/cpp/thread/packaged_task/valid.html',1,'std::packaged_task::valid()']]],
+  ['validate_1',['validate',['../a07301.html#a2432d28941ebf70011babe7b824db85a',1,'hi::v1::text_field_delegate::validate()'],['../a07309.html#a8c2ab907b5cf2ad723fc950ca92c696b',1,'hi::v1::default_text_field_delegate&lt; T &gt;::validate(text_field_widget &amp;sender, gstring const &amp;text) noexcept override'],['../a07309.html#a25aaed7f0d0eb5299dd3cfed88673ce6',1,'hi::v1::default_text_field_delegate&lt; T &gt;::validate(text_field_widget &amp;sender, gstring const &amp;text) noexcept override']]],
+  ['value_2',['value',['http://en.cppreference.com/w/cpp/error/error_code/value.html',1,'std::error_code::value()'],['http://en.cppreference.com/w/cpp/regex/regex_traits/value.html',1,'std::regex_traits::value()'],['http://en.cppreference.com/w/cpp/error/error_condition/value.html',1,'std::error_condition::value()'],['http://en.cppreference.com/w/cpp/experimental/optional/value.html',1,'std::experimental::optional::value()'],['../a04653.html#ab1b44bc39d023b96c772512102f483d4',1,'v1::scoped_task::value()'],['../a04661.html#a67386dca31eebf24bade72e027d4eb3b',1,'v1::scoped_task&lt; void &gt;::value()']]],
+  ['value_5fcomp_3',['value_comp',['http://en.cppreference.com/w/cpp/container/multiset/value_comp.html',1,'std::multiset::value_comp()'],['http://en.cppreference.com/w/cpp/container/multimap/value_comp.html',1,'std::multimap::value_comp()'],['http://en.cppreference.com/w/cpp/container/map/value_comp.html',1,'std::map::value_comp()'],['http://en.cppreference.com/w/cpp/container/set/value_comp.html',1,'std::set::value_comp()']]],
+  ['value_5for_4',['value_or',['http://en.cppreference.com/w/cpp/experimental/optional/value_or.html',1,'std::experimental::optional']]],
+  ['values_5',['values',['../a04237.html#afd561f5e3ba552d8d27f1cad7deba893',1,'hi::v1::datum']]],
+  ['variants_6',['variants',['../a05529.html#a6e169e863baacc43d4bc584ed0bc1996',1,'hi::v1::language_tag::variants()'],['../a02252.html#a8cc575f0e4632e1c4ba7d4c23241c371',1,'hi::v1::variants()'],['../a02252.html#a8cc575f0e4632e1c4ba7d4c23241c371',1,'hi::variants()']]],
+  ['vector_7',['vector',['http://en.cppreference.com/w/cpp/container/vector/vector.html',1,'std::vector']]],
+  ['vector2_8',['vector2',['../a05237.html#a63bfd1220ae394e1a091863a64c3402a',1,'hi::v1::vector2::vector2(float x, float y) noexcept'],['../a05237.html#a08c5493b6d8cabb8ccb736f1d6c40775',1,'hi::v1::vector2::vector2() noexcept'],['../a05237.html#a173cabce6ce94559b215a8a48b62df9d',1,'hi::v1::vector2::vector2(array_type const &amp;other) noexcept']]],
+  ['vector3_9',['vector3',['../a05245.html#a52bda2f4248c025565ef4399c90bb728',1,'hi::v1::vector3::vector3(array_type const &amp;other) noexcept'],['../a05245.html#a95052a14cefc92532234850a4b03ed6c',1,'hi::v1::vector3::vector3() noexcept'],['../a05245.html#a32dfd590e880183f8d2dfe8f3748621b',1,'hi::v1::vector3::vector3(float x, float y, float z=0.0f) noexcept'],['../a05245.html#ac2d9d80316cacdf74de98f0579aa7183',1,'hi::v1::vector3::vector3(vector2 const &amp;other) noexcept']]],
+  ['version_10',['version',['../a04429.html#acbb896deddfc3cbef7fcb192b3df9db8',1,'v1::rcu']]],
+  ['vfprintf_11',['vfprintf',['http://en.cppreference.com/w/cpp/io/c/vfprintf.html',1,'std']]],
+  ['vfscanf_12',['vfscanf',['http://en.cppreference.com/w/cpp/io/c/vfscanf.html',1,'std']]],
+  ['vfwprintf_13',['vfwprintf',['http://en.cppreference.com/w/cpp/io/c/vfwprintf.html',1,'std']]],
+  ['vfwscanf_14',['vfwscanf',['http://en.cppreference.com/w/cpp/io/c/vfwscanf.html',1,'std']]],
+  ['void_5fspan_15',['void_span',['../a04737.html#a2cbb180b07aca8768c1dddfe47d55315',1,'hi::v1::file_view']]],
+  ['vprintf_16',['vprintf',['http://en.cppreference.com/w/cpp/io/c/vfprintf.html',1,'std']]],
+  ['vscanf_17',['vscanf',['http://en.cppreference.com/w/cpp/io/c/vfscanf.html',1,'std']]],
+  ['vsnprintf_18',['vsnprintf',['http://en.cppreference.com/w/cpp/io/c/vfprintf.html',1,'std']]],
+  ['vsprintf_19',['vsprintf',['http://en.cppreference.com/w/cpp/io/c/vfprintf.html',1,'std']]],
+  ['vsscanf_20',['vsscanf',['http://en.cppreference.com/w/cpp/io/c/vfscanf.html',1,'std']]],
+  ['vswprintf_21',['vswprintf',['http://en.cppreference.com/w/cpp/io/c/vfwprintf.html',1,'std']]],
+  ['vswscanf_22',['vswscanf',['http://en.cppreference.com/w/cpp/io/c/vfwscanf.html',1,'std']]],
+  ['vwprintf_23',['vwprintf',['http://en.cppreference.com/w/cpp/io/c/vfwprintf.html',1,'std']]],
+  ['vwscanf_24',['vwscanf',['http://en.cppreference.com/w/cpp/io/c/vfwscanf.html',1,'std']]]
+];

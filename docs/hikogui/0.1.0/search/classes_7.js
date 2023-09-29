@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['gamma_5fdistribution_0',['gamma_distribution',['http://en.cppreference.com/w/cpp/numeric/random/gamma_distribution.html',1,'std']]],
+  ['geometric_5fdistribution_1',['geometric_distribution',['http://en.cppreference.com/w/cpp/numeric/random/geometric_distribution.html',1,'std']]],
+  ['giga_2',['giga',['http://en.cppreference.com/w/cpp/numeric/ratio/ratio.html',1,'std']]],
+  ['glob_5ftoken_5ft_3',['glob_token_t',['../a03457.html',1,'tt']]],
+  ['glyph_5fid_5ftag_4',['glyph_id_tag',['../a04457.html',1,'tt']]],
+  ['glyphcell_5',['GlyphCell',['../a03201.html',1,'tt']]],
+  ['glyphmetrics_6',['GlyphMetrics',['../a04461.html',1,'tt']]],
+  ['grapheme_7',['Grapheme',['../a04465.html',1,'tt']]],
+  ['graphemebreakstate_8',['GraphemeBreakState',['../a04501.html',1,'tt']]],
+  ['greater_9',['greater',['http://en.cppreference.com/w/cpp/utility/functional/greater.html',1,'std']]],
+  ['greater_5fequal_10',['greater_equal',['http://en.cppreference.com/w/cpp/utility/functional/greater_equal.html',1,'std']]],
+  ['gstring_11',['gstring',['../a04473.html',1,'tt']]],
+  ['gui_5ferror_5ftag_12',['gui_error_tag',['../a03401.html',1,'tt']]],
+  ['guidevice_5fbase_13',['GUIDevice_base',['../a04137.html',1,'tt']]],
+  ['guidevice_5fvulkan_14',['GUIDevice_vulkan',['../a04141.html',1,'tt']]],
+  ['guisystem_5fbase_15',['GUISystem_base',['../a04145.html',1,'tt']]],
+  ['guisystem_5fvulkan_16',['GUISystem_vulkan',['../a04149.html',1,'tt']]],
+  ['guisystem_5fvulkan_5fmacos_17',['GUISystem_vulkan_macos',['../a04153.html',1,'tt']]],
+  ['guisystem_5fvulkan_5fwin32_18',['GUISystem_vulkan_win32',['../a04157.html',1,'tt']]],
+  ['guisystemdelegate_19',['GUISystemDelegate',['../a04161.html',1,'tt']]]
+];
